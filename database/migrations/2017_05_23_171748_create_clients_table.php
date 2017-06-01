@@ -15,13 +15,15 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');//客户姓名
-            $table->string('phone');//电话
-            $table->string('address');//详细住址
-            $table->string('sex');//性别
-            $table->string('position');//地图位置
-            $table->double('lng');//经度
-            $table->double('lat');//纬度
+            $table->unsignedInteger('adminId');//管理员id
+            $table->string('name')->nullable();//客户姓名
+            $table->string('phone')->nullable();//电话
+            $table->string('address')->nullable();//详细住址
+            $table->string('sex')->nullable();//性别
+            $table->string('position')->nullable();//地图位置
+            $table->double('lng')->nullable();//经度
+            $table->double('lat')->nullable();//纬度
+            $table->foreign('adminId')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

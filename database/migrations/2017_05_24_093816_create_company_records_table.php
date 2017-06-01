@@ -9,21 +9,24 @@ class CreateCompanyRecordsTable extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+     * @return void                  要增加订单号，描述。
      */
     public function up()
     {
         Schema::create('company_records', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('companyId');//公司Id
-            $table->string('name');//联系人(购买商品的人)，默认使用公司联系人
-            $table->string('phone');//购买个人联系电话，默认使用公司联系电话
-            $table->string('product');//产品名称
-            $table->string('unit');//单位
-            $table->string('unitPrice');//单位
-            $table->integer('count');//购买数量
-            $table->float('tootlePrice');//总价格
-            $table->dateTime('time');//购买时间
+            $table->unsignedInteger('companyId');//公司Id
+            $table->string('name')->nullable();//联系人(购买商品的人)，默认使用公司联系人
+            $table->string('phone')->nullable();//购买个人联系电话，默认使用公司联系电话
+            $table->string('product')->nullable();//产品名称
+            $table->string('unit')->nullable();//单位
+            $table->string('unitPrice')->nullable();//单价
+            $table->integer('count')->nullable();//购买数量
+            $table->float('totalPrice')->nullable();//总价格
+            $table->dateTime('time')->nullable();//购买(添加)时间
+            $table->string('describe')->nullable();//订单描述
+            $table->string('_number')->nullable();//订单流水号
+            $table->foreign('companyId')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });
     }

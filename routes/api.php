@@ -16,3 +16,14 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+/**
+ * 后台api
+ */
+Route::group(['prefix' => 'admin','namespace' => 'Backend','middleware' => 'auth:api'],function (){
+//    Route::post('/addCompany', 'AdminController@addCompany')->name('admin.addCompany');
+});
+
+
+

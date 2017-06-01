@@ -15,19 +15,21 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('company');//公司名称
-            $table->string('name');//联系人姓名
-            $table->string('connectType');//联系人类型
-            $table->string('phone');//公司座机电话
-            $table->string('mobilePhone');//联系人手机号
-            $table->string('fax');//传真
-            $table->string('email');//邮箱
-            $table->string('website');//网站
-            $table->string('address');//详细地址
-            $table->string('describe');//描述
-            $table->string('position');//地图位置
-            $table->double('lng');//经度
-            $table->double('lat');//纬度
+            $table->unsignedInteger('adminId');//管理员id
+            $table->string('company')->nullable();//公司名称
+            $table->string('name')->nullable();//联系人姓名
+            $table->string('connectType')->nullable();//联系人类型
+            $table->string('phone')->nullable();//公司座机电话
+            $table->string('mobilePhone')->nullable();//联系人手机号
+            $table->string('fax')->nullable();//传真
+            $table->string('email')->nullable();//邮箱
+            $table->string('website')->nullable();//网站
+            $table->string('address')->nullable();//详细地址
+            $table->string('describe')->nullable();//描述
+            $table->string('position')->nullable();//地图位置
+            $table->double('lng')->nullable();//经度
+            $table->double('lat')->nullable();//纬度
+            $table->foreign('adminId')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

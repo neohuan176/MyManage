@@ -15,13 +15,14 @@ class CreateClientRecordsTable extends Migration
     {
         Schema::create('client_records', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('clientId');//顾客id
-            $table->string('product');//产品名称
-            $table->string('unit');//单位
-            $table->string('unitPrice');//单位
-            $table->integer('count');//购买数量
-            $table->float('tootlePrice');//总价格
-            $table->dateTime('time');//购买时间
+            $table->unsignedInteger('clientId');//顾客id
+            $table->string('product')->nullable();//产品名称
+            $table->string('unit')->nullable();//单位
+            $table->string('unitPrice')->nullable();//单位
+            $table->integer('count')->nullable();//购买数量
+            $table->float('tootlePrice')->nullable();//总价格
+            $table->dateTime('time')->nullable();//购买时间
+            $table->foreign('clientId')->references('id')->on('clients')->onDelete('cascade');
             $table->timestamps();
         });
     }
