@@ -75,7 +75,10 @@
                                 <td>
                                     <label class="fancy-checkbox">
                                         <input type="checkbox" onclick="selectToggle(this)">
-                                        <span>全选 &nbsp; &nbsp; <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">批量删除</button></span>
+                                        <span>全选 &nbsp; &nbsp;
+                                            <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">批量删除</button>
+                                            <a class="btn btn-sm btn-success" href="{{url('admin/exportCompanyToExcel/'.$company->id)}}" target="_blank">导出为数据</a>
+                                        </span>
                                     </label>
                                 </td>
                                 <td></td><td></td><td></td><td></td><td></td><td></td>

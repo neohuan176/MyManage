@@ -33,6 +33,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Backend'],function (){
     Route::post('/delRecordById/{recordId}', 'AdminController@delRecordById')->name('admin.delRecordById');//根据id删除公司订单记录
     Route::post('/alterRecordById', 'AdminController@alterRecordById')->name('admin.alterRecordById');//根据id修改订单记录
     Route::post('/delSelectedRecord', 'AdminController@delSelectedRecord')->name('admin.delSelectedRecord');//批量删除公司订单记录
+    Route::get('/exportCompanyToExcel/{companyId}', 'AdminController@exportCompanyToExcel')->name('admin.exportCompanyToExcel');//导出公司订单数据（excel）
 });
 
 

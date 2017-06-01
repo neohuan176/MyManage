@@ -6,6 +6,7 @@ use App\BackendServices\Creator\CompanyCreator;
 use App\BackendServices\Interfaces\CreatorInterface;
 use App\Company;
 use App\CompanyRecord;
+use App\Facade\CompanyServiceFacade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -155,6 +156,12 @@ class AdminController extends Controller implements CreatorInterface
         }else{
             return ['status' => 'error','info' => '删除失败！'];
         }
+    }
+
+
+    public function exportCompanyToExcel(Request $request){
+        Log::info("=--------------");
+        CompanyServiceFacade::exportOrderExcelByCompanyId($request->route('companyId'));
     }
 
 
