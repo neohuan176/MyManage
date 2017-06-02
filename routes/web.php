@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 /**
- * 后台页面路由
+ * 后台页面路由---------->公司客户管理
  */
 Route::group(['prefix' => 'admin','namespace' => 'Backend'],function (){
     Route::get('/', 'AdminController@index')->name('admin');
@@ -34,6 +34,25 @@ Route::group(['prefix' => 'admin','namespace' => 'Backend'],function (){
     Route::post('/alterRecordById', 'AdminController@alterRecordById')->name('admin.alterRecordById');//根据id修改订单记录
     Route::post('/delSelectedRecord', 'AdminController@delSelectedRecord')->name('admin.delSelectedRecord');//批量删除公司订单记录
     Route::get('/exportCompanyToExcel/{companyId}', 'AdminController@exportCompanyToExcel')->name('admin.exportCompanyToExcel');//导出公司订单数据（excel）
+    Route::get('/showCompanyInfo/{companyId}', 'AdminController@showCompanyInfo')->name('admin.showCompanyInfo');//显示公司详细信息
+    Route::get('/getDataTest/{companyId}', 'AdminController@getDataTest')->name('admin.getDataTest');//测试Vue
+});
+
+/**
+ * 后台页面路由---------->个人客户管理
+ */
+Route::group(['prefix' => 'admin/personal/','namespace' => 'Backend'],function (){
+    Route::get('/personalClientManage', 'PersonalClientController@personalClientManage')->name('admin.personal.personalClientManage');
+    Route::post('/addPersonalClient', 'PersonalClientController@addPersonalClient')->name('admin.personal.addPersonalClient');//添加，修改公司信息
+    Route::post('/deletePersonalClient/{clientId}', 'PersonalClientController@deletePersonalClient')->name('admin.personal.deletePersonalClient');//根据id删除公司
+    Route::get('/showOrderByPersonalClient/{clientId}', 'PersonalClientController@showOrderByPersonalClient')->name('admin.personal.showOrderByPersonalClient');//显示单个客户的订单
+    Route::post('/addClientRecord/{clientId}', 'PersonalClientController@addClientRecord')->name('admin..personal.addClientRecord');//添加个人客户的订单
+    Route::post('/delRecordById/{recordId}', 'PersonalClientController@delRecordById')->name('admin.delRecordById');//根据id删除个人订单记录
+    Route::post('/alterRecordById', 'PersonalClientController@alterRecordById')->name('admin.alterRecordById');//根据id修改订单记录
+    Route::post('/delSelectedRecord', 'PersonalClientController@delSelectedRecord')->name('admin.delSelectedRecord');//批量删除个人订单记录
+    Route::get('/exportClientRecordToExcel/{clientId}', 'PersonalClientController@exportClientRecordToExcel')->name('admin.personal.exportClientRecordToExcel');//导出个人订单数据（excel）
+    Route::get('/showClientInfo/{clientId}', 'PersonalClientController@showClientInfo')->name('admin.personal.showClientInfo');//显示个人详细信息
+    Route::get('/getClientInfo/{clientId}', 'PersonalClientController@getClientInfo')->name('admin.personal.getClientInfo');//获取客户 信息
 });
 
 
@@ -41,5 +60,5 @@ Route::group(['prefix' => 'admin','namespace' => 'Backend'],function (){
  * 工具路由
  */
 Route::group([],function (){
-    Route::get('/updateTable', 'HomeController@updateTable')->name('updateTable');
+    Route::get('/updateTable', 'HomeController@updateTable')->name('updateTable');//更新表
 });

@@ -19,7 +19,7 @@
     <!-- OVERVIEW -->
     <div class="panel panel-headline" id="app">
         <div class="panel-heading">
-            <h3 class="panel-title">{{$company->company}}--订单管理</h3>
+            <h3 class="panel-title">{{$client->name}}--订单管理</h3>
             <p class="panel-subtitle">{{date('Y - m - d')}}</p>
         </div>
         <div class="panel-body">
@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="panel">
                     <div class="panel-heading">
-                        {{--<h3 class="panel-title">公司客户</h3>--}}
+                        {{--<h3 class="panel-title">个人客户</h3>--}}
                         {{--<div class="right">--}}
                         {{--</div>--}}
                     </div>
@@ -78,11 +78,11 @@
                                         <input type="checkbox" onclick="selectToggle(this)">
                                         <span>全选 &nbsp; &nbsp;
                                             <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">批量删除</button>
-                                            <a class="btn btn-sm btn-success" href="{{url('admin/exportCompanyToExcel/'.$company->id)}}" target="_blank">导出数据</a>
+                                            <a class="btn btn-sm btn-success" href="{{url('admin/personal/exportClientRecordToExcel/'.$client->id)}}" target="_blank">导出数据</a>
                                         </span>
                                     </label>
                                 </td>
-                                <td></td><td></td><td></td><td></td><td></td><td></td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                             </tr>
                             </tfoot>
                         </table>
@@ -249,13 +249,13 @@
                     unitPrice:unitPrice,
                     count:count,
                     totalPrice:totalPrice,
-                    companyId:'{{$company->id}}',
+                    clientId:'{{$client->id}}',
                     describe:describe,
                     time:dateTime,
                     _number:myDate.getTime()
                 })
             });
-            $.post("{{url('admin/addCompanyRecord/'.$company->id)}})}}",
+            $.post("{{url('admin/personal/addClientRecord/'.$client->id)}})}}",
                 {
                     records:orders
                 },
@@ -280,7 +280,7 @@
                 if (!e) {
                     return;
                 }
-                $.post("{{url('admin/delRecordById')}}/"+recordId,function(data){
+                $.post("{{url('admin/personal/delRecordById')}}/"+recordId,function(data){
                     if(data.status == "success"){
                         $(t).parent().parent().remove();
                     }else{
@@ -309,7 +309,7 @@
          * 提交修改订单记录
          */
         function confirmAlter(t) {
-            $.post("{{url('admin/alterRecordById')}}",
+            $.post("{{url('admin/personal/alterRecordById')}}",
                 {
                     recordId: cur_record.id,
                     product:  $("#product").val(),
@@ -364,7 +364,7 @@
                 });
                 console.log(items);
 
-                $.post("{{url('admin/delSelectedRecord')}}",
+                $.post("{{url('admin/personal/delSelectedRecord')}}",
                     {
                         items:items
                     },

@@ -26,6 +26,7 @@ class CreateCompanyRecordsTable extends Migration
             $table->dateTime('time')->nullable();//购买(添加)时间
             $table->string('describe')->nullable();//订单描述
             $table->string('_number')->nullable();//订单流水号
+            $table->string('size')->nullable();//规格
             $table->foreign('companyId')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });

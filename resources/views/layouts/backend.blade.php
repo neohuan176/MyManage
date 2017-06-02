@@ -32,7 +32,7 @@
         </div>
         <div class="container-fluid">
             <div class="navbar-btn">
-                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+                <button type="button" class="btn-toggle-fullwidth" onclick="window.history.back()"><i class="lnr lnr-arrow-left-circle"></i></button>
             </div>
             {{--<form class="navbar-form navbar-left">--}}
                 {{--<div class="input-group">--}}
@@ -41,7 +41,7 @@
                 {{--</div>--}}
             {{--</form>--}}
             <div class="navbar-btn navbar-btn-right">
-                <a class="btn btn-success update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+                <a class="btn btn-success update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>大钣机械后台管理</span></a>
             </div>
             <div id="navbar-menu">
                 <ul class="nav navbar-nav navbar-right">
@@ -87,11 +87,11 @@
                 <ul class="nav">
                     <li><a href="{{route('admin')}}" class="{{request()->getPathInfo() == '/admin'?'active':''}}"><i class="lnr lnr-home"></i> <span>首页</span></a></li>
                     <li>
-                        <a href="#subPages" data-toggle="collapse" class="{{request()->getPathInfo() == '/admin/companyManage'?'active collapsed':''}}"><i class="lnr lnr-file-empty"></i> <span>客户管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                        <div id="subPages" class="collapse {{request()->getPathInfo() == '/admin/companyManage'?'in':''}}">
+                        <a href="#subPages" data-toggle="collapse" class="{{(request()->getPathInfo() == '/admin/companyManage' || request()->getPathInfo() == '/admin/personal/personalClientManage')?'active collapsed':''}}"><i class="lnr lnr-file-empty"></i> <span>客户管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="subPages" class="collapse {{(request()->getPathInfo() == '/admin/companyManage' || request()->getPathInfo() == '/admin/personal/personalClientManage')?'in':''}}">
                             <ul class="nav">
                                 <li><a href="{{route('admin.companyManage')}}" class="{{request()->getPathInfo() == '/admin/companyManage'?'active':''}}">公司客户管理</a></li>
-                                <li><a href="page-login.html" class="">个人客户管理</a></li>
+                                <li><a href="{{route('admin.personal.personalClientManage')}}" class="{{request()->getPathInfo() == '/admin/personal/personalClientManage'?'active':''}}">个人客户管理</a></li>
                             </ul>
                         </div>
                     </li>
@@ -102,9 +102,12 @@
                             <ul class="nav">
                                 <li><a href="page-profile.html" class="">公司订单</a></li>
                                 <li><a href="page-login.html" class="">个人订单</a></li>
+                                <li><a href="page-login.html" class="">常规订单</a></li>
                             </ul>
                         </div>
                     </li>
+
+                    <li><a href="{{route('admin')}}" class="{{request()->getPathInfo() == '/admin'?'active':''}}"><i class="lnr lnr-home"></i> <span>库存管理</span></a></li>
 
                 </ul>
             </nav>
@@ -132,12 +135,10 @@
 <!-- Scripts -->
 @yield("js-end")
 
-
 {{--<script src="{{asset('backend/vendor/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>--}}
 {{--<script src="{{asset('backend/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js')}}"></script>--}}
 {{--<script src="{{asset('backend/vendor/chartist/js/chartist.min.js')}}"></script>--}}
 {{--<script src="{{asset('backend/js/klorofil-common.js')}}"></script>--}}
-
 {{--<script src="{{ asset('js/app.js') }}"></script>--}}
 </body>
 </html>

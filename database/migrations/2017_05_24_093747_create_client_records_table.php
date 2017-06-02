@@ -20,8 +20,11 @@ class CreateClientRecordsTable extends Migration
             $table->string('unit')->nullable();//单位
             $table->string('unitPrice')->nullable();//单位
             $table->integer('count')->nullable();//购买数量
-            $table->float('tootlePrice')->nullable();//总价格
+            $table->float('totalPrice')->nullable();//总价格
             $table->dateTime('time')->nullable();//购买时间
+            $table->string('describe')->nullable();//订单备注
+            $table->string('_number')->nullable();//订单流水号
+            $table->string('size')->nullable();//规格
             $table->foreign('clientId')->references('id')->on('clients')->onDelete('cascade');
             $table->timestamps();
         });

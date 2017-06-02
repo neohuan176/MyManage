@@ -28,10 +28,14 @@ class HomeController extends Controller
     }
 
     public function updateTable(){
-        Schema::table('company_records',function($table){
-//            $table->dropColumn('_number');
-            $table->string('_number')->nullable();//总价格
+        Schema::table('client_records',function($table){
+//            $table->dropColumn('time');
+//            $table->dateTime('time')->nullable();
 
+
+//            $table->string('describe')->nullable();//订单描述
+//            $table->string('_number')->nullable();//订单流水号
+//            $table->string('size')->nullable();//规格
 
 //            $table->foreign('Cid')->references('id')->on('courses')->onDelete('cascade');
 //            $table->dateTime('time')->default(date("Y-m-d H:i:s"));//购买(添加)时间

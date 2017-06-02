@@ -2,100 +2,92 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\BackendServices\Creator\CompanyCreator;
 use App\BackendServices\Interfaces\CreatorInterface;
-use App\Company;
-use App\CompanyRecord;
+use App\Client;
+use App\ClientRecord;
 use App\Facade\CompanyServiceFacade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\BackendServices\Creator\CompanyCreator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;//先用着公司客户的添加修改
 
-class AdminController extends Controller implements CreatorInterface
+class PersonalClientController extends Controller implements CreatorInterface
 {
-    protected $companyCreator;
-    protected $_response = [];
+    protected $_response;
     protected $paginate = 10;
-    public function __construct( CompanyCreator $companyCreator )
+    protected $clientCreator;
+    public function __construct(CompanyCreator $clientCreator)
     {
-        $this->companyCreator = $companyCreator;
+        $this->clientCreator = $clientCreator;
         $this->middleware('auth');
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * 后台首页
-     */
-    public function index(){
-        Log::info("进入=================");
-        return view('backend.index');
-    }
-
-
-    /**
      * @param Request $request
      * @return $this
-     * 根据类型查找公司
+     * 根据类型查找客户
      */
-    public function companyManage(Request $request){
-        $paginate = 5;
+    public function personalClientManage(Request $request){
+        $paginate = 10;
         $type = $request->has('type')?$request->get('type'):1;
         $searchInput = "";
         if($request->has('searchInput')){
             $searchInput = $request->get('searchInput');
         }
         switch ($type){
-            case 1:$companies = Company::where('adminId',Auth::id())->paginate($paginate);break;//查找全部
-            case 2:$companies = Company::where('company','like','%'.$searchInput.'%')->paginate($paginate);break;//按照公司查找
-            case 3:$companies = Company::where('name','like','%'.$searchInput.'%')->paginate($paginate);break;//按照
-            case 4:$companies = Company::where('mobilePhone','like','%'.$searchInput.'%')->paginate($paginate);break;//按照
+            case 1:$clients = Client::where('adminId',Auth::id())->paginate($paginate);break;//查找全部
+            case 2:$clients = Client::where('name','like','%'.$searchInput.'%')->paginate($paginate);break;//按照姓名查找
+            case 3:$clients = Client::where('phone','like','%'.$searchInput.'%')->paginate($paginate);break;//按照电话
+            case 4:$clients = Client::where('address','like','%'.$searchInput.'%')->paginate($paginate);break;//按照详细地址
         }
-        return view('backend.companyManage')->with(['companies'=>$companies,'type'=>$type,'searchInput'=>$searchInput]);
+        return view('backend.personalClient.personalClientManage')->with(['clients'=>$clients,'type'=>$type,'searchInput'=>$searchInput]);
     }
-
 
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * 添加修改公司客户
+     * 添加修改客户
      */
-    public function addCompany(Request $request){
-        Log::info($request->get('companyId'));
-        $companyId = $request->get('companyId');
-        if($companyId == ""){//新增
-            $this->_response = $this->companyCreator->create($this,$request);
+    public function addPersonalClient(Request $request){
+        Log::info($request->get('clientId'));
+        $clientId = $request->get('clientId');
+        if($clientId == ""){//新增
+            $this->_response = $this->clientCreator->createPersonalClient($this,$request);
             return response()->json($this->_response);
         }else{//修改
-            $this->_response = $this->companyCreator->update($this,$request);
+            $this->_response = $this->clientCreator->updatePersonalClient($this,$request);
             return response()->json($this->_response);
         }
     }
 
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * 根据id删除公司客户信息
+     * 根据id删除客户信息
      */
-    public function deleteCompany(Request $request){
-        if(Company::destroy($request->route("companyId"))){
+    public function deletePersonalClient(Request $request){
+        if(Client::destroy($request->route("clientId"))){
             return response()->json(['status'=>'success','info' => "删除成功！"]);
         }else{
             return response()->json(['status'=>'error','info' => "删除失败！"]);
         }
     }
 
+
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * 根据公司显示订单
+     * 根据客户显示订单
      */
-    public function showOrderByCompany(Request $request){
-        $companyId = $request->companyId;
-        $company = Company::find($companyId);
-        $orders = CompanyRecord::where('companyId',$companyId)->orderBy('time','desc')->paginate($this->paginate);
-        return view('backend.showOrderByCompany',['orders'=>$orders,'company' => $company]);
+    public function showOrderByPersonalClient(Request $request){
+        $clientId = $request->clientId;
+        Log::info('客户id-----------'.$clientId);
+        $client = Client::find($clientId);
+        $orders = ClientRecord::where('clientId',$clientId)->orderBy('time','desc')->paginate($this->paginate);
+        return view('backend.personalClient.showOrderByPersonalClient',['orders'=>$orders,'client' => $client]);
     }
 
 
@@ -104,9 +96,9 @@ class AdminController extends Controller implements CreatorInterface
      * @return array
      * 添加订单
      */
-    public function addCompanyRecord(Request $request){
+    public function addClientRecord(Request $request){
         $records = $request->records;
-        if(DB::table('company_records')->insert($records)){
+        if(DB::table('client_records')->insert($records)){
             return ['status' => 'success','info' => '插入成功！'];
         }else{
             return ['status' => 'error','info' => '插入失败！'];
@@ -119,7 +111,7 @@ class AdminController extends Controller implements CreatorInterface
      * 根据id删除记录
      */
     public function delRecordById(Request $request){
-        if(CompanyRecord::destroy($request->route('recordId'))){
+        if(ClientRecord::destroy($request->route('recordId'))){
             return ['status' => 'success','info' => '删除成功！'];
         }else{
             return ['status' => 'error','info' => '删除失败！'];
@@ -132,7 +124,7 @@ class AdminController extends Controller implements CreatorInterface
      * 根据id修改记录
      */
     public function alterRecordById(Request $request){
-        $record = CompanyRecord::find($request->recordId);
+        $record = ClientRecord::find($request->recordId);
         $record->product = $request->product;
         $record->unit = $request->unit;
         $record->size = $request->size;
@@ -153,7 +145,7 @@ class AdminController extends Controller implements CreatorInterface
      * 批量删除
      */
     public function delSelectedRecord(Request $request){
-        if(CompanyRecord::destroy($request->items)){
+        if(ClientRecord::destroy($request->items)){
             return ['status' => 'success','info' => '删除成功！'];
         }else{
             return ['status' => 'error','info' => '删除失败！'];
@@ -165,9 +157,8 @@ class AdminController extends Controller implements CreatorInterface
      * @param Request $request
      * 导出订单记录数据
      */
-    public function exportCompanyToExcel(Request $request){
-        Log::info("=--------------");
-        CompanyServiceFacade::exportOrderExcelByCompanyId($request->route('companyId'));
+    public function exportClientRecordToExcel(Request $request){
+        CompanyServiceFacade::exportOrderExcelByClientId($request->route('clientId'));
     }
 
     /**
@@ -175,14 +166,19 @@ class AdminController extends Controller implements CreatorInterface
      * @return $this
      * 显示公司客户详细信息（主要导航）
      */
-    public function showCompanyInfo(Request $request){
-        $company = Company::find($request->companyId);
-        return view('backend.showCompanyInfo')->with(["company" => $company]);
+    public function showClientInfo(Request $request){
+        $client = Client::find($request->clientId);
+        return view('backend.personalClient.showClientInfo')->with(["client" => $client]);
     }
 
-    public function getDataTest(Request $request){
-        $company = Company::find($request->companyId);
-        return ["company" => $company];
+    /**
+     * @param Request $request
+     * @return array
+     * 获取个人客户信息
+     */
+    public function getClientInfo(Request $request){
+        $client = Client::find($request->clientId);
+        return ["client" => $client];
     }
 
     public function creatorFail($error)

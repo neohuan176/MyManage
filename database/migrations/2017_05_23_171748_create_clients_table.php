@@ -19,7 +19,10 @@ class CreateClientsTable extends Migration
             $table->string('name')->nullable();//客户姓名
             $table->string('phone')->nullable();//电话
             $table->string('address')->nullable();//详细住址
+            $table->string('fax')->nullable();//传真
             $table->string('sex')->nullable();//性别
+            $table->string('email')->nullable();//邮箱
+            $table->string('describe')->nullable();//备注
             $table->string('position')->nullable();//地图位置
             $table->double('lng')->nullable();//经度
             $table->double('lat')->nullable();//纬度
