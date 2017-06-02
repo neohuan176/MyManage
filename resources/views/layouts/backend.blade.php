@@ -97,10 +97,10 @@
                     </li>
 
                     <li>
-                        <a href="#subPages1" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>订单管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <a href="#subPages1" data-toggle="collapse" class="{{request()->getPathInfo() == '/admin/orders/companyOrdersManage'?'active collapsed':''}}"><i class="lnr lnr-file-empty"></i> <span>订单管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                         <div id="subPages1" class="collapse ">
-                            <ul class="nav">
-                                <li><a href="page-profile.html" class="">公司订单</a></li>
+                            <ul class="nav" {{(request()->getPathInfo() == '/admin/orders' || request()->getPathInfo() == '/admin/orders/companyOrdersManage')?'in':''}}>
+                                <li><a href="{{route('admin.orders.companyOrdersManage')}}" class="{{request()->getPathInfo() == '/admin/orders/companyOrdersManage'?'active':''}}">公司订单</a></li>
                                 <li><a href="page-login.html" class="">个人订单</a></li>
                                 <li><a href="page-login.html" class="">常规订单</a></li>
                             </ul>

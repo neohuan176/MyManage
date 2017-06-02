@@ -166,7 +166,6 @@ class AdminController extends Controller implements CreatorInterface
      * 导出订单记录数据
      */
     public function exportCompanyToExcel(Request $request){
-        Log::info("=--------------");
         CompanyServiceFacade::exportOrderExcelByCompanyId($request->route('companyId'));
     }
 

@@ -57,6 +57,16 @@ Route::group(['prefix' => 'admin/personal/','namespace' => 'Backend'],function (
 
 
 /**
+ * 后台页面路由---------->个人客户管理
+ */
+Route::group(['prefix' => 'admin/orders/','namespace' => 'Backend'],function (){
+    Route::get('/companyOrdersManage', 'OrderController@companyOrdersManage')->name('admin.orders.companyOrdersManage');
+
+});
+
+
+
+/**
  * 工具路由
  */
 Route::group([],function (){
