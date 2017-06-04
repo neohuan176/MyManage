@@ -161,6 +161,7 @@
                                 <thead>
                                 <th>名称</th>
                                 <th>单位</th>
+                                <th>规格尺寸</th>
                                 <th>单价</th>
                                 <th>数量</th>
                                 <th>总价</th>
@@ -170,6 +171,7 @@
                                 <tr>
                                     <td><input type="text" id="product"></td>
                                     <td><input type="text" id="unit"></td>
+                                    <td><input type="text" id="size"></td>
                                     <td><input type="number" id="unitPrice"></td>
                                     <td><input type="number" id="count"></td>
                                     <td><input type="number" id="totalPrice"></td>
@@ -299,6 +301,7 @@
             cur_record = record;
             $("#product").val(record.product);
             $('#unit').val(record.unit);
+            $('#size').val(record.size);
             $("#unitPrice").val(record.unitPrice);
             $("#count").val(record.count);
             $("#totalPrice").val(record.totalPrice);
@@ -314,6 +317,7 @@
                     recordId: cur_record.id,
                     product:  $("#product").val(),
                     unit:  $("#unit").val(),
+                    size:  $("#size").val(),
                     unitPrice:  $("#unitPrice").val(),
                     count:  $("#count").val(),
                     totalPrice:  $("#totalPrice").val(),
@@ -322,6 +326,7 @@
                 function (data) {
                 if(data.status == "success"){
                     console.log(data.info);
+                    location.reload();
                 }else{
                     alert(data.info);
                 }

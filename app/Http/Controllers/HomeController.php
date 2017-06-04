@@ -28,10 +28,16 @@ class HomeController extends Controller
     }
 
     public function updateTable(){
-        Schema::table('client_records',function($table){
-//            $table->dropColumn('time');
+        Schema::table('ordinary_records',function($table){
+//            $table->unsignedInteger('orderId');//记录备注
+//            $table->foreign('orderId')->references('id')->on('ordinary_orders')->onDelete('cascade');
+//            $table->unsignedInteger('orderId');//记录备注
+//            $table->foreign('orderId')->references('id')->on('ordinary_orders')->onDelete('cascade');
+            $table->dropColumn('ordinary_order_id');
+//            $table->unsignedInteger('ordinary_order_id');//管理员id
 //            $table->dateTime('time')->nullable();
-
+//            ordinary_order_id
+//            ordinary_record_id
 
 //            $table->string('describe')->nullable();//订单描述
 //            $table->string('_number')->nullable();//订单流水号
@@ -40,7 +46,7 @@ class HomeController extends Controller
 //            $table->foreign('Cid')->references('id')->on('courses')->onDelete('cascade');
 //            $table->dateTime('time')->default(date("Y-m-d H:i:s"));//购买(添加)时间
 
-//            $table->dropForeign('attend_records_Cid_foreign');
+//            $table->dropForeign('ordinary_records_orderId_foreign');
 //            $table->string('describe')->nullable();//订单描述
 //            $table->string('_number')->nullable()->default(time());//订单流水号
 //            $table->string('phone');

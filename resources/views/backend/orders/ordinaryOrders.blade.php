@@ -11,7 +11,6 @@
 @endsection
 
 @section('js-start')
-    {{--<script src="{{asset('backend/js/vue.min.js')}}"></script>--}}
 @endsection
 
 
@@ -19,7 +18,7 @@
     <!-- OVERVIEW -->
     <div class="panel panel-headline" id="app">
         <div class="panel-heading">
-            <h3 class="panel-title">{{$client->name}}--订单管理</h3>
+            <h3 class="panel-title">常规订单管理</h3>
             <p class="panel-subtitle">{{date('Y - m - d')}}</p>
         </div>
         <div class="panel-body">
@@ -40,12 +39,9 @@
                         <table class="table table-striped" id="recordTable">
                             <thead>
                             <tr>
-                                <th>订单号</th>
-                                <th>物品名称</th>
-                                <th>单价</th>
-                                <th>数量</th>
+                                <th>概述</th>
+                                <th>时间</th>
                                 <th>总价</th>
-                                <th>购买时间</th>
                                 <th>备注</th>
                                 <th>操作</th>
                             </tr>
@@ -54,18 +50,16 @@
                             @foreach($orders as $order)
                                 <tr>
                                     <td>
-                                        <label class="fancy-checkbox">
-                                            <input type="checkbox" id="{{$order->id}}">
-                                            <span>{{$order->_number}}</span>
-                                        </label>
-                                    <td>{{$order->product}}@if($order->size!="")({{$order->size}})@endif</td>
-                                    <td>￥{{$order->unitPrice.' / '.$order->unit}}</td>
-                                    <td>{{$order->count}}</td>
-                                    <td>￥{{$order->totalPrice}}</td>
+                                    <label class="fancy-checkbox">
+                                    <input type="checkbox" id="{{$order->id}}">
+                                    <span>{{$order->orderInfo}}</span>
+                                    </label>
+                                    </td>
                                     <td>{{$order->time}}</td>
+                                    <td>{{$order->totalPrice}}</td>
                                     <td>{{$order->describe}}</td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm" onclick="delRecordById(this,{{$order->id}})" >删除</button>
+                                        <button class="btn btn-danger btn-sm" onclick="delOrderById(this,{{$order->id}})" >删除</button>
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#alterRecord" onclick="alterRecord({{$order}})">修改</button>
                                     </td>
                                 </tr>
@@ -77,8 +71,8 @@
                                     <label class="fancy-checkbox">
                                         <input type="checkbox" onclick="selectToggle(this)">
                                         <span>全选 &nbsp; &nbsp;
-                                            <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">批量删除</button>
-                                            <a class="btn btn-sm btn-success" href="{{url('admin/personal/exportClientRecordToExcel/'.$client->id)}}" target="_blank">导出数据</a>
+                                            <button class="btn btn-sm btn-danger" onclick="delSelectedOrders()">批量删除</button>
+{{--                                            <a class="btn btn-sm btn-success" href="{{url('admin/personal/exportClientRecordToExcel/'.$client->id)}}" target="_blank">导出数据</a>--}}
                                         </span>
                                     </label>
                                 </td>
@@ -107,6 +101,10 @@
                             <h4 class="modal-title" id="_title">添加订单</h4>
                         </div>
                         <div class="modal-body">
+                            <div class="form-group">
+                                <label for="orderDescribe">订单备注</label>
+                                <textarea name="orderDescribe" id="orderDescribe"  class="form-control"></textarea>
+                            </div>
                             <table style="margin: 10px auto; border-collapse:separate; border-spacing:10px;" id="orderTable">
                                 <thead>
                                     <th>名称</th>
@@ -157,7 +155,11 @@
                             <h4 class="modal-title" id="_title">修改订单</h4>
                         </div>
                         <div class="modal-body">
-                            <table style="margin: 10px auto;" id="orderTableToAlter">
+                            <div class="form-group">
+                                <label for="orderDescribe">订单备注</label>
+                                <textarea name="orderDescribeAlter" id="orderDescribeAlter"  class="form-control"></textarea>
+                            </div>
+                            <table style="margin: 10px auto; border-collapse:separate; border-spacing:10px;" id="orderTableToAlter">
                                 <thead>
                                 <th>名称</th>
                                 <th>单位</th>
@@ -166,18 +168,17 @@
                                 <th>数量</th>
                                 <th>总价</th>
                                 <th>描述</th>
+                                <th>操作</th>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><input type="text" id="product"></td>
-                                    <td><input type="text" id="unit"></td>
-                                    <td><input type="text" id="size"></td>
-                                    <td><input type="number" id="unitPrice"></td>
-                                    <td><input type="number" id="count"></td>
-                                    <td><input type="number" id="totalPrice"></td>
-                                    <td><input type="text" id="describe"></td>
-                                </tr>
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-default text-success" onclick="addAlterRow()">+</button>
+                                    </td>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <div class="modal-footer">
@@ -228,6 +229,49 @@
             $(t).parent().parent().remove();
         }
 
+
+        /**
+         * 添加修改行
+         * */
+        function addAlterRow(){
+            var html = "";
+            html+='<tr>'+
+                '<td><input type="text" class="product"></td>'+
+                '<td><input type="text" class="unit"></td>'+
+                '<td><input type="text" class="size"></td>'+
+                '<td><input type="number" class="unitPrice"></td>'+
+                '<td><input type="number" class="count"></td>'+
+                '<td><input type="number" class="totalPrice"></td>'+
+                '<td><input type="text" class="describe"></td>'+
+                '<td><buttone class="btn btn-danger btn-sm" onclick="delAlterRow(this)">X</buttone></td>'+
+                '</tr>';
+            $("#orderTableToAlter tbody").append(html);
+        }
+
+        /**
+         * 删除修改行
+         * @param t
+         */
+        function delAlterRow(t) {
+            Ewin.confirm({ message: "是否删除？" ,btnok:"确认",btncl:"取消"}).on(function (e) {//弹窗确认
+                if (!e) {
+                    return;
+                }
+                var cur_tr = $(t).parent().parent();
+                if(!(typeof(cur_tr.attr("id"))=="undefined")){//删除已经存在的
+                    $.post("{{url('admin/orders/delOrdinaryRecordById')}}/"+cur_tr.attr('id'),function(data){
+                        if(data.status == "success"){
+                            cur_tr.remove();
+                        }else{
+                            alert("删除失败！");
+                        }
+                    });
+                }else{
+                    cur_tr.remove();
+                }
+            });
+        }
+
         /**
          * 提交添加订单记录
          */
@@ -241,9 +285,6 @@
                 var count = $(this).find(".count").val();
                 var totalPrice = $(this).find(".totalPrice").val();
                 var describe = $(this).find(".describe").val();
-                var myDate = new Date();
-                var dateTime = myDate.toLocaleString( );
-                console.log(dateTime);
                 orders.push({
                     product:product,
                     unit:unit,
@@ -251,15 +292,13 @@
                     unitPrice:unitPrice,
                     count:count,
                     totalPrice:totalPrice,
-                    clientId:'{{$client->id}}',
                     describe:describe,
-                    time:dateTime,
-                    _number:myDate.getTime()
                 })
             });
-            $.post("{{url('admin/personal/addClientRecord/'.$client->id)}})}}",
+            $.post("{{url('admin/orders/addOrdinaryOrder')}}",
                 {
-                    records:orders
+                    records:orders,
+                    describe:$("#orderDescribe").val()
                 },
                 function (data) {
                     if(data.status == "success"){
@@ -273,16 +312,16 @@
 
 
         /**
-         * 根据id删除记录
+         * 根据id删除订单
          * @param t
          * @param recordId
          */
-        function delRecordById(t,recordId) {
+        function delOrderById(t,orderId) {
             Ewin.confirm({ message: "是否删除？" ,btnok:"确认",btncl:"取消"}).on(function (e) {//弹窗确认
                 if (!e) {
                     return;
                 }
-                $.post("{{url('admin/personal/delRecordById')}}/"+recordId,function(data){
+                $.post("{{url('admin/orders/delOrdinaryOrderById')}}/"+orderId,function(data){
                     if(data.status == "success"){
                         $(t).parent().parent().remove();
                     }else{
@@ -292,43 +331,87 @@
             });
         }
 
-        var cur_record = "";
+        var cur_order = "";
 
         /**
          * 初始化修改记录
          * */
-        function alterRecord(record) {
-            cur_record = record;
-            $("#product").val(record.product);
-            $('#unit').val(record.unit);
-            $('#size').val(record.size);
-            $("#unitPrice").val(record.unitPrice);
-            $("#count").val(record.count);
-            $("#totalPrice").val(record.totalPrice);
-            $("#describe").val(record.describe);
+        function alterRecord(order) {
+            cur_order = order;
+            $("#orderTableToAlter tbody").html("");
+            $("#orderDescribeAlter").val(order.describe);
+            $.get('{{url("admin/orders/getOrderRecords")}}',
+                {
+                    orderId: order.id
+                },
+                function (data) {
+                var html = "";
+                console.log(data);
+                    for(var key in data){
+                        var record = data[key];
+                        html+='<tr id="'+data[key].id+'">'+
+                                '<td><input type="text" class="product" value="'+(record.product==null?'':record.product)+'"></td>'+
+                                '<td><input type="text" class="unit" value="'+(record.unit==null?'':record.unit)+'"></td>'+
+                                '<td><input type="text" class="size" value="'+(record.size==null?'':record.size)+'"></td>'+
+                                '<td><input type="number" class="unitPrice" value="'+(record.unitPrice==null?'':record.unitPrice)+'"></td>'+
+                                '<td><input type="number" class="count" value="'+(record.count==null?'':record.count)+'"></td>'+
+                                '<td><input type="number" class="totalPrice" value="'+(record.totalPrice==null?'':record.totalPrice)+'"></td>'+
+                                '<td><input type="text" class="describe" value="'+(record.describe==null?'':record.describe)+'"></td>'+
+                                '<td><buttone class="btn btn-danger btn-sm" onclick="delAlterRow(this)">X</buttone></td>'+
+                                '</tr>';
+                    }
+                    $("#orderTableToAlter tbody").append(html);
+                }
+            );
         }
 
         /**
          * 提交修改订单记录
          */
         function confirmAlter(t) {
-            $.post("{{url('admin/personal/alterRecordById')}}",
+            var alter_records=[];
+            var new_records = [];
+            $("#orderTableToAlter tbody").find("tr").each(function (_this) {
+                if(!(typeof($(this).attr("id"))=="undefined")){
+                    var id = $(this).attr('id');
+                    alter_records.push({
+                        id: id,
+                        product:$(this).find(".product").val(),
+                        unit:$(this).find(".unit").val(),
+                        size:$(this).find(".size").val(),
+                        unitPrice:$(this).find(".unitPrice").val(),
+                        count:$(this).find(".count").val(),
+                        totalPrice:$(this).find(".totalPrice").val(),
+                        describe:$(this).find(".describe").val(),
+                    })
+                }else{
+                    new_records.push({
+                        product:$(this).find(".product").val(),
+                        unit:$(this).find(".unit").val(),
+                        size:$(this).find(".size").val(),
+                        unitPrice:$(this).find(".unitPrice").val(),
+                        count:$(this).find(".count").val(),
+                        totalPrice:$(this).find(".totalPrice").val(),
+                        describe:$(this).find(".describe").val(),
+                    })
+                }
+
+            });
+
+            $.post("{{url('admin/orders/alterOrderById')}}",
                 {
-                    recordId: cur_record.id,
-                    product:  $("#product").val(),
-                    unit:  $("#unit").val(),
-                    size:  $("#size").val(),
-                    unitPrice:  $("#unitPrice").val(),
-                    count:  $("#count").val(),
-                    totalPrice:  $("#totalPrice").val(),
-                    describe:  $("#describe").val()
+                    alter_records:alter_records,
+                    new_records:new_records,
+                    orderId:cur_order.id,
+                    orderDescribe:$("#orderDescribeAlter").val(),
                 },
                 function (data) {
-                if(data.status == "success"){
-                    console.log(data.info);
-                }else{
-                    alert(data.info);
-                }
+                    if(data.status == "success"){
+                        console.log(data.info);
+                        location.reload();
+                    }else{
+                        alert(data.info);
+                    }
                 }
             )
         }
@@ -356,21 +439,20 @@
         /**
          * 批量删除
          */
-        function delSelectedRecord() {
+        function delSelectedOrders() {
             Ewin.confirm({ message: "是否删除选择的订单记录？" ,btnok:"确认",btncl:"取消"}).on(function (e) {//弹窗确认
                 if (!e) {
                     return;
                 }
-
                 var items = [];
                 $("#recordTable tbody").find("input[type='checkbox']:checkbox:checked").each(function(){
                     items.push($(this).attr("id"));
                 });
                 console.log(items);
 
-                $.post("{{url('admin/personal/delSelectedRecord')}}",
+                $.post("{{url('admin/orders/delSelectedOrders')}}",
                     {
-                        items:items
+                        orderIds:items
                     },
                     function(data){
                             if(data.status == "success"){

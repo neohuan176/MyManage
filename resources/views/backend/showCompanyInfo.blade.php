@@ -26,7 +26,7 @@
                         <div class="profile-main">
                             <img class="img-circle" alt="Avatar" src="{{asset('backend/image/user-medium.png')}}">
                             <h3 class="name" v-text="company.name"></h3>
-                            <span class="online-status status-available">@{{company.connectType}}</span>
+                            <span class="online-status status-available">@{{company.connectType==1?'老板':(company.connectType==2?'经理':(company.connectType==3?'员工':'其他联系人类型'))}}</span>
                         </div>
                         <div class="profile-stat">
                             <div class="row">

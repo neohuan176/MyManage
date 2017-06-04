@@ -57,12 +57,24 @@ Route::group(['prefix' => 'admin/personal/','namespace' => 'Backend'],function (
 
 
 /**
- * 后台页面路由---------->个人客户管理
+ * 后台页面路由---------->订单管理
  */
 Route::group(['prefix' => 'admin/orders/','namespace' => 'Backend'],function (){
-    Route::get('/companyOrdersManage', 'OrderController@companyOrdersManage')->name('admin.orders.companyOrdersManage');
-
+    Route::get('/companyOrdersManage', 'OrderController@companyOrdersManage')->name('admin.orders.companyOrdersManage');//公司订单管理
+    Route::get('/clientOrdersManage', 'OrderController@clientOrdersManage')->name('admin.orders.clientOrdersManage');//个人订单管理
+    Route::get('/ordinaryOrdersManage', 'OrderController@ordinaryOrdersManage')->name('admin.orders.ordinaryOrdersManage');//常规订单管理
+    //    添加订单
+    Route::post('/addOrdinaryOrder', 'OrderController@addOrdinaryOrder')->name('admin.orders.addOrdinaryOrder');
+    //    修改订单
+    //    删除订单
+    Route::post('/delOrdinaryOrderById/{orderId}', 'OrderController@delOrdinaryOrderById')->name('admin.orders.delOrdinaryOrderById');
+    Route::post('/delSelectedOrders', 'OrderController@delSelectedOrders')->name('admin.orders.delSelectedOrders');
+    Route::get('/getOrderRecords', 'OrderController@getOrderRecords')->name('admin.orders.getOrderRecords');//获取订单的记录
+    Route::post('/alterOrderById', 'OrderController@alterOrderById')->name('admin.orders.alterOrderById');//获取订单的记录
+    Route::post('/delOrdinaryRecordById/{recordId}', 'OrderController@delOrdinaryRecordById')->name('admin.orders.delOrdinaryRecordById');//获取订单的记录
+    //    查找订单
 });
+
 
 
 

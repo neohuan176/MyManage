@@ -11,7 +11,6 @@
 @endsection
 
 @section('js-start')
-    {{--<script src="{{asset('backend/js/vue.min.js')}}"></script>--}}
 @endsection
 
 
@@ -19,28 +18,41 @@
     <!-- OVERVIEW -->
     <div class="panel panel-headline" id="app">
         <div class="panel-heading">
-            <h3 class="panel-title">{{$client->name}}--订单管理</h3>
+            <h3 class="panel-title">个人订单管理</h3>
             <p class="panel-subtitle">{{date('Y - m - d')}}</p>
         </div>
         <div class="panel-body">
             <div class="row">
-                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddOrderPanel"
-                        data-whatever="">+ 添加订单
-                </button>
+                <form action="{{url('admin/orders/clientOrdersManage')}}" method="get">
+                    <div class="input-group col-lg-6" style="margin-top: 15px">
+                        <div class="input-group-btn">
+                            <button type="button" id="type-selected" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @if($type == 2 || $type==1)客户姓名@endif
+                                @if($type == 3)产品名称@endif
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)" onclick="changeType(2,this)">客户姓名</a></li>
+                                <li><a href="javascript:void(0)" onclick="changeType(3,this)">产品名称</a></li>
+                            </ul>
+                        </div><!-- /btn-group -->
+                        <input type="hidden" value="2" name="type" id="type">
+                        <input type="text" value="{{$searchInput}}" id="searchInput" name="searchInput" class="form-control" placeholder="Search ...">
+                        <span class="input-group-btn"><button type="submit" class="btn btn-primary">查找</button></span>
+                        <span class="input-group-btn"><a  class="btn btn-default" href="{{url('admin/orders/clientOrdersManage?type=1')}}">显示全部</a></span>
 
+                    </div>
+                </form>
             </div>
             <div class="row">
                 <div class="panel">
                     <div class="panel-heading">
-                        {{--<h3 class="panel-title">个人客户</h3>--}}
-                        {{--<div class="right">--}}
-                        {{--</div>--}}
                     </div>
                     <div class="panel-body no-padding">
                         <table class="table table-striped" id="recordTable">
                             <thead>
                             <tr>
                                 <th>订单号</th>
+                                <th>公司名称</th>
                                 <th>物品名称</th>
                                 <th>单价</th>
                                 <th>数量</th>
@@ -58,6 +70,8 @@
                                             <input type="checkbox" id="{{$order->id}}">
                                             <span>{{$order->_number}}</span>
                                         </label>
+                                    </td>
+                                    <td><a href="{{route('admin.personal.showClientInfo',[$order->clientId])}}">{{$order->clientInfo->name}}</a></td>
                                     <td>{{$order->product}}@if($order->size!="")({{$order->size}})@endif</td>
                                     <td>￥{{$order->unitPrice.' / '.$order->unit}}</td>
                                     <td>{{$order->count}}</td>
@@ -78,11 +92,11 @@
                                         <input type="checkbox" onclick="selectToggle(this)">
                                         <span>全选 &nbsp; &nbsp;
                                             <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">批量删除</button>
-                                            <a class="btn btn-sm btn-success" href="{{url('admin/personal/exportClientRecordToExcel/'.$client->id)}}" target="_blank">导出数据</a>
+                                            <a class="btn btn-sm btn-success" href="{{url('admin/orders/exportCompanyOrderToExcel/')}}" target="_blank">导出数据</a>
                                         </span>
                                     </label>
                                 </td>
-                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                             </tr>
                             </tfoot>
                         </table>
@@ -204,6 +218,16 @@
         });
 
         /**
+         * 修改查找类型
+         * @param type
+         * @param t
+         */
+        function changeType(type,t){
+            $('#type').val(type);
+            $("#type-selected").html($(t).html()+"<span class='caret'></span>");
+        }
+
+        /**
          * 添加行
          * */
         function addRow(){
@@ -226,49 +250,6 @@
          */
         function delRow(t) {
             $(t).parent().parent().remove();
-        }
-
-        /**
-         * 提交添加订单记录
-         */
-        function commitOrder(){
-            var orders=[];
-            $("#orderTable tbody").find("tr").each(function (_this) {
-                var product = $(this).find(".product").val();
-                var unit = $(this).find(".unit").val();
-                var size = $(this).find(".size").val();
-                var unitPrice = $(this).find(".unitPrice").val();
-                var count = $(this).find(".count").val();
-                var totalPrice = $(this).find(".totalPrice").val();
-                var describe = $(this).find(".describe").val();
-                var myDate = new Date();
-                var dateTime = myDate.toLocaleString( );
-                console.log(dateTime);
-                orders.push({
-                    product:product,
-                    unit:unit,
-                    size:size,
-                    unitPrice:unitPrice,
-                    count:count,
-                    totalPrice:totalPrice,
-                    clientId:'{{$client->id}}',
-                    describe:describe,
-                    time:dateTime,
-                    _number:myDate.getTime()
-                })
-            });
-            $.post("{{url('admin/personal/addClientRecord/'.$client->id)}})}}",
-                {
-                    records:orders
-                },
-                function (data) {
-                    if(data.status == "success"){
-                        location.reload();
-                    }else{
-                        alert(data.error);
-                    }
-                }
-            );
         }
 
 
@@ -325,7 +306,7 @@
                 },
                 function (data) {
                 if(data.status == "success"){
-                    console.log(data.info);
+                    location.reload();
                 }else{
                     alert(data.info);
                 }

@@ -26,6 +26,27 @@
                 {{--<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddOrderPanel"--}}
                         {{--data-whatever="">+ 添加订单--}}
                 {{--</button>--}}
+
+                <form action="{{url('admin/orders/companyOrdersManage')}}" method="get">
+                    <div class="input-group col-lg-6" style="margin-top: 15px">
+                        <div class="input-group-btn">
+                            <button type="button" id="type-selected" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @if($type == 2 || $type==1)公司名称@endif
+                                @if($type == 3)产品名称@endif
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                {{--<li><a href="javascript:void(0)" onclick="changeType(1,this)">显示全部</a></li>--}}
+                                <li><a href="javascript:void(0)" onclick="changeType(2,this)">公司名称</a></li>
+                                <li><a href="javascript:void(0)" onclick="changeType(3,this)">产品名称</a></li>
+                            </ul>
+                        </div><!-- /btn-group -->
+                        <input type="hidden" value="2" name="type" id="type">
+                        <input type="text" value="{{$searchInput}}" id="searchInput" name="searchInput" class="form-control" placeholder="Search ...">
+                        <span class="input-group-btn"><button type="submit" class="btn btn-primary">查找</button></span>
+                        <span class="input-group-btn"><a  class="btn btn-default" href="{{url('admin/orders/companyOrdersManage?type=1')}}">显示全部</a></span>
+
+                    </div>
+                </form>
             </div>
             <div class="row">
                 <div class="panel">
@@ -36,6 +57,7 @@
                             <thead>
                             <tr>
                                 <th>订单号</th>
+                                <th>公司名称</th>
                                 <th>物品名称</th>
                                 <th>单价</th>
                                 <th>数量</th>
@@ -53,6 +75,8 @@
                                             <input type="checkbox" id="{{$order->id}}">
                                             <span>{{$order->_number}}</span>
                                         </label>
+                                    </td>
+                                    <td><a href="{{route('admin.showCompanyInfo',[$order->companyId])}}">{{$order->companyInfo->company}}</a></td>
                                     <td>{{$order->product}}@if($order->size!="")({{$order->size}})@endif</td>
                                     <td>￥{{$order->unitPrice.' / '.$order->unit}}</td>
                                     <td>{{$order->count}}</td>
@@ -195,6 +219,16 @@
             modal.find('.modal-title').text('添加订单 ' + recipient)
             modal.find('.modal-body input').val()
         });
+
+        /**
+         * 修改查找类型
+         * @param type
+         * @param t
+         */
+        function changeType(type,t){
+            $('#type').val(type);
+            $("#type-selected").html($(t).html()+"<span class='caret'></span>");
+        }
 
         /**
          * 添加行
