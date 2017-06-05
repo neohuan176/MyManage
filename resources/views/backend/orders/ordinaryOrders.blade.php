@@ -43,6 +43,7 @@
                                 <th>时间</th>
                                 <th>总价</th>
                                 <th>备注</th>
+                                <th>状态</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -58,8 +59,9 @@
                                     <td>{{$order->time}}</td>
                                     <td>{{$order->totalPrice}}</td>
                                     <td>{{$order->describe}}</td>
+                                    <td class="hover" onclick="changeStatus('{{$order->id}}',this)" data-value="{{$order->isDone}}">@if($order->isDone)<span class="label label-success">已完成</span>@else<span class="label label-danger">未完成</span>'@endif</td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm" onclick="delOrderById(this,{{$order->id}})" >删除</button>
+                                        <button class="btn btn-danger btn-sm" onclick="delOrderById(this,'{{$order->id}}')" >删除</button>
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#alterRecord" onclick="alterRecord({{$order}})">修改</button>
                                     </td>
                                 </tr>
@@ -465,6 +467,37 @@
                         }
                 );
             });
+        }
+
+        /**
+         *修改完成状态
+         * @param orderId
+         * @param t
+         */
+        function changeStatus(orderId,t){
+            var isDone = $(t).attr("data-value");
+            $.post("{{url('admin/orders/changeOrderStatus/2')}}",
+                {
+                    isDone: isDone,
+                    orderId: orderId
+                },
+                function (data) {
+                    if(data.status == "success"){
+                        if(isDone == 1){//修改为未完成
+                            console.log(isDone);
+                            console.log("修改为未完成");
+                            $(t).find("span").removeClass("label-success").addClass('label-danger').html('未完成');
+                        }else{
+                            console.log(isDone);
+                            console.log("修改为已完成");
+                            $(t).find("span").removeClass("label-danger").addClass('label-success').html('已完成');
+                        }
+                        $(t).attr('data-value',isDone==0?1:0);
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            )
         }
 
     </script>

@@ -79,7 +79,7 @@
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{url('admin/showOrderByCompany/'.$company->id)}}">查看订单</a>
                                     <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addCompanyPanel" onclick="alterCompany({{$company}},this)">修改信息</button>
-                                    <button class="btn btn-primary btn-sm" onclick="deleteCompany('{{$company->id}}',this)">删除</button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteCompany('{{$company->id}}',this)">删除</button>
                                 </td>
                             </tr>
                                 @endforeach

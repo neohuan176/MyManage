@@ -47,7 +47,7 @@ class AdminController extends Controller implements CreatorInterface
             $searchInput = $request->get('searchInput');
         }
         switch ($type){
-            case 1:$companies = Company::where('adminId',Auth::id())->paginate($paginate);break;//查找全部
+            case 1:$companies = Company::paginate($paginate);break;//查找全部
             case 2:$companies = Company::where('company','like','%'.$searchInput.'%')->paginate($paginate);break;//按照公司查找
             case 3:$companies = Company::where('name','like','%'.$searchInput.'%')->paginate($paginate);break;//按照
             case 4:$companies = Company::where('mobilePhone','like','%'.$searchInput.'%')->paginate($paginate);break;//按照

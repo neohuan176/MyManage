@@ -75,6 +75,8 @@ Route::group(['prefix' => 'admin/orders/','namespace' => 'Backend'],function (){
     Route::post('/alterOrderById', 'OrderController@alterOrderById')->name('admin.orders.alterOrderById');//获取订单的记录
     Route::post('/delOrdinaryRecordById/{recordId}', 'OrderController@delOrdinaryRecordById')->name('admin.orders.delOrdinaryRecordById');//获取订单的记录
     //    查找订单
+
+    Route::post('/changeOrderStatus/{type}', 'OrderController@changeOrderStatus')->name('admin.orders.changeOrderStatus');//修改完成状态
 });
 
 

@@ -40,7 +40,6 @@
                         <table class="table table-striped" id="recordTable">
                             <thead>
                             <tr>
-                                <th>订单号</th>
                                 <th>物品名称</th>
                                 <th>单价</th>
                                 <th>数量</th>
@@ -57,9 +56,9 @@
                                     <td>
                                         <label class="fancy-checkbox">
                                             <input type="checkbox" id="{{$order->id}}">
-                                            <span>{{$order->_number}}</span>
+                                            <span>{{$order->product}}@if($order->size!="")({{$order->size}})@endif</span>
                                         </label>
-                                    <td>{{$order->product}}@if($order->size!="")({{$order->size}})@endif</td>
+                                    </td>
                                     <td>￥{{$order->unitPrice.' / '.$order->unit}}</td>
                                     <td>{{$order->count}}</td>
                                     <td>￥{{$order->totalPrice}}</td>
@@ -79,8 +78,8 @@
                                     <label class="fancy-checkbox">
                                         <input type="checkbox" onclick="selectToggle(this)">
                                         <span>全选 &nbsp; &nbsp;
-                                            <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">批量删除</button>
-                                            <a class="btn btn-sm btn-success" href="{{url('admin/personal/exportClientRecordToExcel/'.$client->id)}}" target="_blank">导出数据</a>
+                                            <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">删除</button>
+                                            <a class="btn btn-sm btn-success" href="{{url('admin/personal/exportClientRecordToExcel/'.$client->id)}}" target="_blank">导出</a>
                                         </span>
                                     </label>
                                 </td>

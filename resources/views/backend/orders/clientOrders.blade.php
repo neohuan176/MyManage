@@ -51,14 +51,14 @@
                         <table class="table table-striped" id="recordTable">
                             <thead>
                             <tr>
-                                <th>订单号</th>
-                                <th>公司名称</th>
-                                <th>物品名称</th>
+                                <th>姓名</th>
+                                <th>产品名称</th>
                                 <th>单价</th>
                                 <th>数量</th>
                                 <th>总价</th>
                                 <th>购买时间</th>
                                 <th>备注</th>
+                                <th>状态</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -68,18 +68,18 @@
                                     <td>
                                         <label class="fancy-checkbox">
                                             <input type="checkbox" id="{{$order->id}}">
-                                            <span>{{$order->_number}}</span>
+                                            <span><a href="{{route('admin.personal.showClientInfo',[$order->clientId])}}">{{$order->clientInfo->name}}</a></span>
                                         </label>
                                     </td>
-                                    <td><a href="{{route('admin.personal.showClientInfo',[$order->clientId])}}">{{$order->clientInfo->name}}</a></td>
                                     <td>{{$order->product}}@if($order->size!="")({{$order->size}})@endif</td>
                                     <td>￥{{$order->unitPrice.' / '.$order->unit}}</td>
                                     <td>{{$order->count}}</td>
                                     <td>￥{{$order->totalPrice}}</td>
                                     <td>{{$order->time}}</td>
                                     <td>{{$order->describe}}</td>
+                                    <td class="hover" onclick="changeStatus('{{$order->id}}',this)" data-value="{{$order->isDone}}">@if($order->isDone)<span class="label label-success">已完成</span>@else<span class="label label-danger">未完成</span>'@endif</td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm" onclick="delRecordById(this,{{$order->id}})" >删除</button>
+                                        <button class="btn btn-danger btn-sm" onclick="delRecordById(this,'{{$order->id}}')" >删除</button>
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#alterRecord" onclick="alterRecord({{$order}})">修改</button>
                                     </td>
                                 </tr>
@@ -91,8 +91,8 @@
                                     <label class="fancy-checkbox">
                                         <input type="checkbox" onclick="selectToggle(this)">
                                         <span>全选 &nbsp; &nbsp;
-                                            <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">批量删除</button>
-                                            <a class="btn btn-sm btn-success" href="{{url('admin/orders/exportCompanyOrderToExcel/')}}" target="_blank">导出数据</a>
+                                            <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">删除</button>
+                                            <a class="btn btn-sm btn-success" href="{{url('admin/orders/exportCompanyOrderToExcel/')}}" target="_blank">导出</a>
                                         </span>
                                     </label>
                                 </td>
@@ -130,6 +130,7 @@
                                     <th>数量</th>
                                     <th>总价</th>
                                     <th>描述</th>
+                                    <th>状态</th>
                                     <th>操作</th>
                                 </thead>
                                 <tbody>
@@ -141,6 +142,12 @@
                                         <td><input type="number" class="count"></td>
                                         <td><input type="number" class="totalPrice"></td>
                                         <td><input type="text" class="describe"></td>
+                                        <td>
+                                            <select class="isDone form-control">
+                                                <option value="0" selected>未完成</option>
+                                                <option value="1">已完成</option>
+                                            </select>
+                                        </td>
                                         <td><buttone class="btn btn-danger btn-sm" onclick="delRow(this)">X</buttone></td>
                                     </tr>
                                 </tbody>
@@ -164,7 +171,7 @@
 
             {{--修改--}}
             <div class="modal fade" id="alterRecord" tabindex="-1" role="dialog" aria-labelledby="alterRecord">
-                <div class="modal-dialog" style="width: 60%" role="document">
+                <div class="modal-dialog" style="width: 70%" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -180,6 +187,7 @@
                                 <th>数量</th>
                                 <th>总价</th>
                                 <th>描述</th>
+                                <th>状态</th>
                                 </thead>
                                 <tbody>
                                 <tr>
@@ -190,6 +198,12 @@
                                     <td><input type="number" id="count"></td>
                                     <td><input type="number" id="totalPrice"></td>
                                     <td><input type="text" id="describe"></td>
+                                    <td>
+                                        <select id="isDone" class="form-control input-sm">
+                                            <option value="0">未完成</option>
+                                            <option value="1">已完成</option>
+                                        </select>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -287,6 +301,7 @@
             $("#count").val(record.count);
             $("#totalPrice").val(record.totalPrice);
             $("#describe").val(record.describe);
+            $("#isDone").val(record.isDone);
         }
 
         /**
@@ -302,7 +317,8 @@
                     unitPrice:  $("#unitPrice").val(),
                     count:  $("#count").val(),
                     totalPrice:  $("#totalPrice").val(),
-                    describe:  $("#describe").val()
+                    describe:  $("#describe").val(),
+                    isDone:  $("#isDone").val()
                 },
                 function (data) {
                 if(data.status == "success"){
@@ -366,6 +382,37 @@
             });
         }
 
+
+        /**
+         *修改完成状态
+         * @param orderId
+         * @param t
+         */
+        function changeStatus(orderId,t){
+            var isDone = $(t).attr("data-value");
+            $.post("{{url('admin/orders/changeOrderStatus/1')}}",
+                {
+                    isDone: isDone,
+                    orderId: orderId
+                },
+                function (data) {
+                    if(data.status == "success"){
+                        if(isDone == 1){//修改为未完成
+                            console.log(isDone);
+                            console.log("修改为未完成");
+                            $(t).find("span").removeClass("label-success").addClass('label-danger').html('未完成');
+                        }else{
+                            console.log(isDone);
+                            console.log("修改为已完成");
+                            $(t).find("span").removeClass("label-danger").addClass('label-success').html('已完成');
+                        }
+                        $(t).attr('data-value',isDone==0?1:0);
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            )
+        }
     </script>
 
 @endsection

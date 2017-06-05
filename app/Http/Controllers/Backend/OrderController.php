@@ -246,4 +246,42 @@ class OrderController extends Controller
         }
     }
     //导出所有常规订单ordinaryOrdersManage
+
+
+    /**
+     * @param Request $request
+     * @return array
+     * 修改订单完成状态
+     */
+    public function changeOrderStatus(Request $request){
+        switch ($request->type){
+            case 0:{//公司订单
+                $companyRecord = CompanyRecord::find($request->orderId);
+                $companyRecord->isDone = $request->isDone==0?1:0;
+                if($companyRecord->save()){
+                    return ['status' => 'success','info' => '修改成功！'];
+                }else{
+                    return ['status' => 'error','info' => '修改失败！'];
+                }
+            };
+            case 1:{//个人订单
+                $clientRecord = ClientRecord::find($request->orderId);
+                $clientRecord->isDone = $request->isDone==0?1:0;
+                if($clientRecord->save()){
+                    return ['status' => 'success','info' => '修改成功！'];
+                }else{
+                    return ['status' => 'error','info' => '修改失败！'];
+                }
+            };
+            case 2:{//普通订单
+                $ordinaryOrder = OrdinaryOrder::find($request->orderId);
+                $ordinaryOrder->isDone = $request->isDone==0?1:0;
+                if($ordinaryOrder->save()){
+                    return ['status' => 'success','info' => '修改成功！'];
+                }else{
+                    return ['status' => 'error','info' => '修改失败！'];
+                }
+            };
+        }
+    }
 }

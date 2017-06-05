@@ -37,7 +37,7 @@ class PersonalClientController extends Controller implements CreatorInterface
             $searchInput = $request->get('searchInput');
         }
         switch ($type){
-            case 1:$clients = Client::where('adminId',Auth::id())->paginate($paginate);break;//查找全部
+            case 1:$clients = Client::paginate($paginate);break;//查找全部
             case 2:$clients = Client::where('name','like','%'.$searchInput.'%')->paginate($paginate);break;//按照姓名查找
             case 3:$clients = Client::where('phone','like','%'.$searchInput.'%')->paginate($paginate);break;//按照电话
             case 4:$clients = Client::where('address','like','%'.$searchInput.'%')->paginate($paginate);break;//按照详细地址
