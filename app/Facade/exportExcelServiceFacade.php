@@ -7,7 +7,7 @@ namespace App\Facade;
  * Time: 11:28
  */
 use Illuminate\Support\Facades\Facade;
-class CompanyServiceFacade extends Facade
+class exportExcelServiceFacade extends Facade
 {
-    protected static function getFacadeAccessor() { return 'companyService'; }
+    protected static function getFacadeAccessor() { return 'exportExcelService'; }
 }

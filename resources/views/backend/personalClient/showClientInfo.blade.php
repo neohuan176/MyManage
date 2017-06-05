@@ -26,7 +26,7 @@
                         <div class="profile-main">
                             <img class="img-circle" alt="Avatar" src="{{asset('backend/image/user1.png')}}">
                             <h3 class="name" v-text="client.name"></h3>
-                            <span class="online-status status-available"v-text="client.sex"></span>
+                            <span class="online-status status-available">@{{client.sex==0?'先生':(client.sex==1?'小姐':"性别未知")}}</span>
                         </div>
                         <div class="profile-stat">
                             <div class="row">
@@ -34,7 +34,7 @@
                                     传真 <span v-text="client.fax"></span>
                                 </div>
                                 <div class="col-md-4 stat-item">
-                                    手机号 <span><a href="tel:@{{client.phone}}" style="color: #fff;" v-text="client.phone"></a></span>
+                                    手机号 <span><a v-bind:href="['tel:'+client.phone]" style="color: #fff;" v-text="client.phone"></a></span>
                                 </div>
                                 <div class="col-md-4 stat-item">
                                     固话 <span v-text="client.phone"></span>
@@ -61,7 +61,7 @@
                             <h4 class="heading">描述</h4>
                             <p v-text="client.describe"></p>
                         </div>
-                        <div class="text-center"><a class="btn btn-primary" href="#">修改资料</a></div>
+                        <div class="text-center"><button class="btn btn-primary" v-on:click="showOrders">查看他的订单</button></div>
                     </div>
                     <!-- END PROFILE DETAIL -->
                 </div>
@@ -93,6 +93,9 @@
                   }else{
                       alert("没有目的地");
                   }
+              },
+              showOrders: function () {
+                  location.href = "{{url('admin/personal/showOrderByPersonalClient/')}}/"+app.client.id;
               }
           },
           mounted: function () {

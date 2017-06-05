@@ -97,7 +97,7 @@
                                         <input type="checkbox" onclick="selectToggle(this)">
                                         <span>全选&nbsp;
                                             <button class="btn btn-sm btn-danger" onclick="delSelectedRecord()">删除</button>
-                                            <a class="btn btn-sm btn-success" href="{{url('admin/orders/exportCompanyOrderToExcel/')}}" target="_blank">导出</a>
+                                            <a class="btn btn-sm btn-success" href="{{url('admin/orders/exportCompanyOrders')}}" target="_blank">导出</a>
                                         </span>
                                     </label>
                                 </td>

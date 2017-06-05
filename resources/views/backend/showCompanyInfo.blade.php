@@ -34,7 +34,7 @@
                                     传真 <span v-text="company.fax"></span>
                                 </div>
                                 <div class="col-md-4 stat-item">
-                                    手机号 <span><a href="tel:@{{company.mobilePhone}}" style="color: #fff;" v-text="company.mobilePhone"></a></span>
+                                    手机号 <span><a v-bind:href="['tel:'+company.mobilePhone]" style="color: #fff;" v-text="company.mobilePhone"></a></span>
                                 </div>
                                 <div class="col-md-4 stat-item">
                                     固话 <span v-text="company.phone"></span>
@@ -62,7 +62,7 @@
                             <h4 class="heading">描述</h4>
                             <p v-text="company.describe"></p>
                         </div>
-                        <div class="text-center"><a class="btn btn-primary" href="#">修改资料</a></div>
+                        <div class="text-center"><button class="btn btn-primary" v-on:click="showOrders">查看他的订单</button></div>
                     </div>
                     <!-- END PROFILE DETAIL -->
                 </div>
@@ -94,6 +94,9 @@
                   }else{
                       alert("没有目的地");
                   }
+              },
+              showOrders: function () {
+                  location.href = "{{url('admin/showOrderByCompany/')}}/"+app.company.id;
               }
           },
           mounted: function () {

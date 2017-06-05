@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\BackendServices\Services\CompanyService;
+use App\BackendServices\Services\exportExcelService;
 
-class CompanyServiceProvider extends ServiceProvider
+class exportExcelServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -24,9 +24,9 @@ class CompanyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('companyService', function()
+        $this->app->singleton('exportExcelService', function()
         {
-            return new CompanyService();
+            return new exportExcelService();
         });
     }
 }

@@ -71,12 +71,16 @@ Route::group(['prefix' => 'admin/orders/','namespace' => 'Backend'],function (){
     //    删除订单
     Route::post('/delOrdinaryOrderById/{orderId}', 'OrderController@delOrdinaryOrderById')->name('admin.orders.delOrdinaryOrderById');
     Route::post('/delSelectedOrders', 'OrderController@delSelectedOrders')->name('admin.orders.delSelectedOrders');
-    Route::get('/getOrderRecords', 'OrderController@getOrderRecords')->name('admin.orders.getOrderRecords');//获取订单的记录
-    Route::post('/alterOrderById', 'OrderController@alterOrderById')->name('admin.orders.alterOrderById');//获取订单的记录
+    Route::get('/getOrderRecords', 'OrderController@getOrderRecords')->name('admin.orders.getOrderRecords');//
+    Route::post('/alterOrderById', 'OrderController@alterOrderById')->name('admin.orders.alterOrderById');//
     Route::post('/delOrdinaryRecordById/{recordId}', 'OrderController@delOrdinaryRecordById')->name('admin.orders.delOrdinaryRecordById');//获取订单的记录
     //    查找订单
 
     Route::post('/changeOrderStatus/{type}', 'OrderController@changeOrderStatus')->name('admin.orders.changeOrderStatus');//修改完成状态
+    Route::get('/exportClientOrders', 'OrderController@exportClientOrders')->name('admin.orders.exportClientOrders');//导出所有个人客户购买记录
+    Route::get('/exportCompanyOrders', 'OrderController@exportCompanyOrders')->name('admin.orders.exportCompanyOrders');//导出所有公司购买记录
+
+
 });
 
 

@@ -6,7 +6,7 @@ use App\BackendServices\Creator\CompanyCreator;
 use App\BackendServices\Interfaces\CreatorInterface;
 use App\Company;
 use App\CompanyRecord;
-use App\Facade\CompanyServiceFacade;
+use App\Facade\exportExcelServiceFacade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -167,7 +167,7 @@ class AdminController extends Controller implements CreatorInterface
      * 导出订单记录数据
      */
     public function exportCompanyToExcel(Request $request){
-        CompanyServiceFacade::exportOrderExcelByCompanyId($request->route('companyId'));
+        exportExcelServiceFacade::exportOrderExcelByCompanyId($request->route('companyId'));
     }
 
     /**

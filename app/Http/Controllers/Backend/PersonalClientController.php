@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\BackendServices\Interfaces\CreatorInterface;
 use App\Client;
 use App\ClientRecord;
-use App\Facade\CompanyServiceFacade;
+use App\Facade\exportExcelServiceFacade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -159,7 +159,7 @@ class PersonalClientController extends Controller implements CreatorInterface
      * 导出订单记录数据
      */
     public function exportClientRecordToExcel(Request $request){
-        CompanyServiceFacade::exportOrderExcelByClientId($request->route('clientId'));
+        exportExcelServiceFacade::exportOrderExcelByClientId($request->route('clientId'));
     }
 
     /**

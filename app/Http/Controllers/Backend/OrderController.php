@@ -6,6 +6,7 @@ use App\Client;
 use App\ClientRecord;
 use App\Company;
 use App\CompanyRecord;
+use App\Facade\exportExcelServiceFacade;
 use App\OrdinaryOrder;
 use App\OrdinaryRecord;
 use Illuminate\Http\Request;
@@ -23,7 +24,6 @@ class OrderController extends Controller
         $this->middleware('auth');
     }
 
-    //显示所有公司订单
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -49,9 +49,14 @@ class OrderController extends Controller
         return view('backend.orders.companyOrders',['orders'=>$orders,'type'=>$type,'searchInput'=>$searchInput]);
     }
 
-    //导出所有公司订单
+    /**
+     * @param Request $request
+     * 导出所有公司购买记录
+     */
+    public function exportCompanyOrders(Request $request){
+        exportExcelServiceFacade::exportCompanyOrders();
+    }
 
-    //显示所有个人订单
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -74,9 +79,14 @@ class OrderController extends Controller
         });
         return view('backend.orders.clientOrders',['orders'=>$orders,'type'=>$type,'searchInput'=>$searchInput]);
     }
-    //导出所有个人订单
+    /**
+     * @param Request $request
+     * 导出所有个人购买记录
+     */
+    public function exportClientOrders(Request $request){
+        exportExcelServiceFacade::exportClientOrders();
+    }
 
-    //显示所有常规订单
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
