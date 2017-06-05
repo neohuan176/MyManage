@@ -140,6 +140,7 @@ class AdminController extends Controller implements CreatorInterface
         $record->count = $request->count;
         $record->totalPrice = $request->totalPrice;
         $record->describe = $request->describe;
+        $record->isDone = $request->isDone;
         if($record->save()){
             return ['status' => 'success','info' => '修改成功！'];
         }else{
@@ -179,9 +180,29 @@ class AdminController extends Controller implements CreatorInterface
         return view('backend.showCompanyInfo')->with(["company" => $company]);
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     * 获取公司详细信息？ 需要修改
+     */
     public function getDataTest(Request $request){
         $company = Company::find($request->companyId);
         return ["company" => $company];
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * 修改订单完成状态
+     */
+    public function changeOrderStatus(Request $request){
+        $companyRecord = CompanyRecord::find($request->orderId);
+        $companyRecord->isDone = $request->isDone==0?1:0;
+        if($companyRecord->save()){
+            return ['status' => 'success','info' => '修改成功！'];
+        }else{
+            return ['status' => 'error','info' => '修改失败！'];
+        }
     }
 
     public function creatorFail($error)

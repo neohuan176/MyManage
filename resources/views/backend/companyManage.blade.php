@@ -87,7 +87,6 @@
                         </table>
                         <div>
                             <div class="pull-right">
-                                {{--{!! $companies->render('vendor/pagination') !!}--}}
                                 {{$companies->render('')}}
                             </div>
                         </div>

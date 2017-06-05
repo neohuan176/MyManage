@@ -21,6 +21,7 @@ class CreateOrdinaryOrdersTable extends Migration
             $table->string('totalPrice')->nullable();//总金额
             $table->dateTime('time')->nullable();//购买时间
             $table->string('describe')->nullable();//订单备注
+            $table->boolean('isDone')->default(false);//完成状态
             $table->timestamps();
         });
     }

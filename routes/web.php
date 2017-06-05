@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Backend'],function (){
     Route::get('/exportCompanyToExcel/{companyId}', 'AdminController@exportCompanyToExcel')->name('admin.exportCompanyToExcel');//导出公司订单数据（excel）
     Route::get('/showCompanyInfo/{companyId}', 'AdminController@showCompanyInfo')->name('admin.showCompanyInfo');//显示公司详细信息
     Route::get('/getDataTest/{companyId}', 'AdminController@getDataTest')->name('admin.getDataTest');//测试Vue
+    Route::post('/changeOrderStatus', 'AdminController@changeOrderStatus')->name('admin.changeOrderStatus');//修改完成状态
 });
 
 /**
@@ -53,6 +54,7 @@ Route::group(['prefix' => 'admin/personal/','namespace' => 'Backend'],function (
     Route::get('/exportClientRecordToExcel/{clientId}', 'PersonalClientController@exportClientRecordToExcel')->name('admin.personal.exportClientRecordToExcel');//导出个人订单数据（excel）
     Route::get('/showClientInfo/{clientId}', 'PersonalClientController@showClientInfo')->name('admin.personal.showClientInfo');//显示个人详细信息
     Route::get('/getClientInfo/{clientId}', 'PersonalClientController@getClientInfo')->name('admin.personal.getClientInfo');//获取客户 信息
+    Route::post('/changeOrderStatus', 'PersonalClientController@changeOrderStatus')->name('admin.personal.changeOrderStatus');//修改完成状态
 });
 
 

@@ -28,12 +28,13 @@ class HomeController extends Controller
     }
 
     public function updateTable(){
-        Schema::table('ordinary_records',function($table){
+        Schema::table('ordinary_orders',function($table){
+            $table->boolean('isDone')->default(false);//规格
 //            $table->unsignedInteger('orderId');//记录备注
 //            $table->foreign('orderId')->references('id')->on('ordinary_orders')->onDelete('cascade');
 //            $table->unsignedInteger('orderId');//记录备注
 //            $table->foreign('orderId')->references('id')->on('ordinary_orders')->onDelete('cascade');
-            $table->dropColumn('ordinary_order_id');
+//            $table->dropColumn('ordinary_order_id');
 //            $table->unsignedInteger('ordinary_order_id');//管理员id
 //            $table->dateTime('time')->nullable();
 //            ordinary_order_id

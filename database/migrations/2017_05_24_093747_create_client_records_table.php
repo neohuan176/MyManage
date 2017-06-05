@@ -25,6 +25,7 @@ class CreateClientRecordsTable extends Migration
             $table->string('describe')->nullable();//订单备注
             $table->string('_number')->nullable();//订单流水号
             $table->string('size')->nullable();//规格
+            $table->boolean('isDone')->default(false);//完成状态
             $table->foreign('clientId')->references('id')->on('clients')->onDelete('cascade');
             $table->timestamps();
         });

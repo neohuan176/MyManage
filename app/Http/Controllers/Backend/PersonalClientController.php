@@ -132,6 +132,7 @@ class PersonalClientController extends Controller implements CreatorInterface
         $record->count = $request->count;
         $record->totalPrice = $request->totalPrice;
         $record->describe = $request->describe;
+        $record->isDone = $request->isDone;
         if($record->save()){
             return ['status' => 'success','info' => '修改成功！'];
         }else{
@@ -179,6 +180,21 @@ class PersonalClientController extends Controller implements CreatorInterface
     public function getClientInfo(Request $request){
         $client = Client::find($request->clientId);
         return ["client" => $client];
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * 修改订单完成状态
+     */
+    public function changeOrderStatus(Request $request){
+        $clientRecord = ClientRecord::find($request->orderId);
+        $clientRecord->isDone = $request->isDone==0?1:0;
+        if($clientRecord->save()){
+            return ['status' => 'success','info' => '修改成功！'];
+        }else{
+            return ['status' => 'error','info' => '修改失败！'];
+        }
     }
 
     public function creatorFail($error)
