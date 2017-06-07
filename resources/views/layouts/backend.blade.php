@@ -21,6 +21,7 @@
     @yield("css")
     <script src="{{asset('backend/js/jquery.min.js')}}"></script>
     <script src="{{asset('backend/js/bootstrap.js')}}"></script>
+    <script src="{{asset('backend/js/common/util.js')}}"></script>
     @yield("js-start")
 </head>
 <body>

@@ -259,7 +259,7 @@
                 var describe = $(this).find(".describe").val();
                 var isDone = $(this).find(".isDone").val();
                 var myDate = new Date();
-                var dateTime = myDate.toLocaleString( );
+                var dateTime = myDate.Format("yyyy-MM-dd hh:mm:ss");
                 console.log(dateTime);
                 orders.push({
                     product:product,
