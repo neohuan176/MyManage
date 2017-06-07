@@ -40,7 +40,7 @@ class AdminController extends Controller implements CreatorInterface
      * 根据类型查找公司
      */
     public function companyManage(Request $request){
-        $paginate = 5;
+        $paginate = 10;
         $type = $request->has('type')?$request->get('type'):1;
         $searchInput = "";
         if($request->has('searchInput')){

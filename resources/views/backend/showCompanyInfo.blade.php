@@ -89,7 +89,7 @@
               },
               reDirectToMap: function () {
                   if(app.company.position != ""){
-                      var hrefStr = "http://m.amap.com/navi/?start=&amp;dest="+app.company.lng+","+app.company.lat+"&amp;destName="+app.company.position+"&amp;naviBy=car&amp;key=380b21940d6607f172278d1a8977c397";
+                      var hrefStr = "http://m.amap.com/navi/?start=&dest="+app.company.lng+","+app.company.lat+"&destName="+app.company.position+"&naviBy=car&key=243f524bd3274d3a0e201a5625c41593";
                         window.open(hrefStr);
                   }else{
                       alert("没有目的地");
