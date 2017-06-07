@@ -9,7 +9,7 @@
 @endsection
 
 @section('js-start')
-    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=ed1fafa0307bb4991da41f54d8a88b46"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=380b21940d6607f172278d1a8977c397"></script>
     <script src="{{asset('backend/js/bootstrap.AMapPositionPicker.js')}}"></script>
     <script src="{{asset('backend/js/bootstrapValidator.js')}}"></script>
     {{--<script src="{{asset('backend/js/vue.min.js')}}"></script>--}}
