@@ -56,6 +56,7 @@
                             </el-col>
                             <el-col :span="7">
                                 <el-form-item>
+                                    <el-input v-model="product.size" placeholder="规格尺寸"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-form-item>
