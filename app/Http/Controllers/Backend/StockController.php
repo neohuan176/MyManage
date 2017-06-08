@@ -112,7 +112,8 @@ class StockController extends Controller
         $products->each(function ($product){
             $product->imageList = $product->images;
         });
-        return ['products'=>$products];
+        return response()->json(['products'=>$products]);
+//        return ['products'=>$products];
     }
 
     /**
