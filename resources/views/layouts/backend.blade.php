@@ -72,42 +72,6 @@
                     </li>
                 </ul>
             </div>
-
-            {{--<div id="navbar-menu">--}}
-                {{--<ul class="nav navbar-nav navbar-right">--}}
-                    {{--<li class="dropdown">--}}
-                        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>菜单&nbsp;</span><i class="fa fa-home"></i></a>--}}
-                        {{--<ul class="dropdown-menu">--}}
-                            {{--<li><a href="{{route('admin')}}" class="{{request()->getPathInfo() == '/admin'?'active':''}}"><i class="fa fa-line-chart"></i> <span>报表统计</span></a></li>--}}
-                            {{--<li>--}}
-                                {{--<a href="#" data-toggle="collapse" class="{{(request()->getPathInfo() == '/admin/companyManage' || request()->getPathInfo() == '/admin/personal/personalClientManage')?'active collapsed':''}}"><i class="lnr lnr-user"></i> <span>客户管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>--}}
-                                {{--<div id="" class="collapse in">--}}
-                                    {{--<ul class="nav">--}}
-                                        {{--<li><a href="{{route('admin.companyManage')}}" class="{{request()->getPathInfo() == '/admin/companyManage'?'active':''}}">公司客户管理</a></li>--}}
-                                        {{--<li><a href="{{route('admin.personal.personalClientManage')}}" class="{{request()->getPathInfo() == '/admin/personal/personalClientManage'?'active':''}}">个人客户管理</a></li>--}}
-                                    {{--</ul>--}}
-                                {{--</div>--}}
-                            {{--</li>--}}
-
-                            {{--<li>--}}
-                                {{--<a href="#" data-toggle="collapse" class="{{strpos(request()->getPathInfo(),'admin/orders')?'active collapsed':''}}"><i class="lnr lnr-file-empty"></i> <span>订单管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>--}}
-                                {{--<div id="" class="collapse in ">--}}
-                                    {{--<ul class="nav">--}}
-                                        {{--<li><a href="{{route('admin.orders.companyOrdersManage')}}" class="{{request()->getPathInfo() == '/admin/orders/companyOrdersManage'?'active':''}}">公司订单</a></li>--}}
-                                        {{--<li><a href="{{route('admin.orders.clientOrdersManage')}}" class="{{request()->getPathInfo() == '/admin/orders/clientOrdersManage'?'active':''}}">个人订单</a></li>--}}
-                                        {{--<li><a href="{{route('admin.orders.ordinaryOrdersManage')}}" class="{{request()->getPathInfo() == '/admin/orders/ordinaryOrdersManage'?'active':''}}">常规订单</a></li>--}}
-                                    {{--</ul>--}}
-                                {{--</div>--}}
-                            {{--</li>--}}
-
-                            {{--<li><a href="{{route('admin')}}" class="{{request()->getPathInfo() == '/admin/orders/'?'active':''}}"><i class="fa fa-database"></i> <span>库存管理</span></a></li>--}}
-
-                        {{--</ul>--}}
-                    {{--</li>--}}
-                {{--</ul>--}}
-            {{--</div>--}}
-
-
         </div>
     </nav>
     <!-- END NAVBAR -->
@@ -138,7 +102,7 @@
                         </div>
                     </li>
 
-                    <li><a href="{{route('admin')}}" class="{{request()->getPathInfo() == '/admin/orders/'?'active':''}}"><i class="fa fa-database"></i> <span>库存管理</span></a></li>
+                    <li><a href="{{route('admin.stock.stockShow')}}" class="{{request()->getPathInfo() == '/admin/stock/stockShow'?'active':''}}"><i class="fa fa-database"></i> <span>库存管理</span></a></li>
 
                 </ul>
             </nav>

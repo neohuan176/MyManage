@@ -84,6 +84,19 @@ Route::group(['prefix' => 'admin/orders/','namespace' => 'Backend'],function (){
 });
 
 
+/**
+ * 后台页面路由---------->订单管理
+ */
+Route::group(['prefix' => 'admin/stock/','namespace' => 'Backend'],function (){
+    Route::get('/stockAdd', 'StockController@stockAdd')->name('admin.stock.stockAdd');//添加库存页面
+    Route::get('/stockShow', 'StockController@stockShow')->name('admin.stock.stockShow');//显示库存页面
+    Route::post('/addProducts', 'StockController@addProducts')->name('admin.stock.addProducts');//保存产品
+    Route::post('/getAllProducts', 'StockController@getAllProducts')->name('admin.stock.getAllProducts');//
+    Route::post('/delProduct', 'StockController@delProduct')->name('admin.stock.delProduct');//
+    Route::post('/changeCount', 'StockController@changeCount')->name('admin.stock.changeCount');//
+    Route::post('/imageUpload', 'StockController@imageUpload')->name('admin.stock.imageUpload');
+});
+
 
 
 /**
