@@ -160,8 +160,8 @@
                     })
                         .then(function (response) {
                             if(response.status == "200"){
-                                app.products = response.data.products;
-                                console.log(app.products);
+                                _this.products = response.data.products;
+                                console.log(_this.products);
                             }
                         }).catch(function (error) {
                         console.log(error);
@@ -182,12 +182,13 @@
                     this.fetchProducts();
                 },
                 handleDelete: function (index,row) {
+                    var _this = this;
                     axios.post("{{url('admin/stock/delProduct')}}",{
                         productId: row.id
                     })
                         .then(function (response) {
                             if(response.status == "200"){
-                                app.products.splice(index,1);
+                                _this.products.splice(index,1);
                             }
                         }).catch(function (error) {
                         console.log(error);
