@@ -161,6 +161,7 @@
                         .then(function (response) {
                             if(response.status == "200"){
                                 app.products = response.data.products;
+                                console.log(app.products);
                             }
                         }).catch(function (error) {
                         console.log(error);
