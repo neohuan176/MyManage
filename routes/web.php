@@ -92,9 +92,14 @@ Route::group(['prefix' => 'admin/stock/','namespace' => 'Backend'],function (){
     Route::get('/stockShow', 'StockController@stockShow')->name('admin.stock.stockShow');//显示库存页面
     Route::post('/addProducts', 'StockController@addProducts')->name('admin.stock.addProducts');//保存产品
     Route::post('/getAllProducts', 'StockController@getAllProducts')->name('admin.stock.getAllProducts');//
-    Route::post('/delProduct', 'StockController@delProduct')->name('admin.stock.delProduct');//
-    Route::post('/changeCount', 'StockController@changeCount')->name('admin.stock.changeCount');//
+    Route::post('/delProduct', 'StockController@delProduct')->name('admin.stock.delProduct');//删除产品
+    Route::post('/changeCount', 'StockController@changeCount')->name('admin.stock.changeCount');//修改库存
+    Route::get('/getProduct/{productId}', 'StockController@getProduct')->name('admin.stock.getProduct');//修改库存
+    Route::any('/alterProduct/{productId?}', 'StockController@alterProduct')->name('admin.stock.alterProduct');//修改库存
     Route::post('/imageUpload', 'StockController@imageUpload')->name('admin.stock.imageUpload');
+    Route::post('/alter/imageUpload/{productId}', 'StockController@imageUploadAlter')->name('admin.stock.imageUploadAlter');
+    Route::post('/alter/delProductImage', 'StockController@delProductImage')->name('admin.stock.delProductImage');
+//    Route::post('/alter/saveAlterProduct', 'StockController@alterProduct')->name('admin.stock.saveAlterProduct');
 });
 
 

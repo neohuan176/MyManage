@@ -29,7 +29,6 @@ class AdminController extends Controller implements CreatorInterface
      * 后台首页
      */
     public function index(){
-        Log::info("进入=================");
         return view('backend.index');
     }
 

@@ -118,8 +118,47 @@ class StockController extends Controller
 
     /**
      * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * 修改页面的进入与提交
+     */
+    public function alterProduct(Request $request){
+        if($request->isMethod('get')){//进入
+            return view('backend.stock.alterProduct',['productId'=>$request->productId]);
+        }else{
+            $new_product = $request->product;
+            $product = Product::find($request->product['id']);
+
+            $product->No = $new_product['No'];
+            $product->productName = $new_product['productName'];
+            $product->unit = $new_product['unit'];
+            $product->unitPrice = $new_product['unitPrice'];
+            $product->count = $new_product['count'];
+            $product->position = $new_product['position'];
+            $product->describe = $new_product['describe'];
+            if($product->save()){
+                return ["status"=>'success','msg'=>'修改成功'];
+            }else{
+                return ["status"=>'success','msg'=>'修改失败'];
+            }
+        }
+    }
+
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * 根据id获取产品
+     */
+    public function getProduct(Request $request){
+        $product = Product::find($request->productId);
+        $imageList = $product->images;
+        return ['product'=>$product,'imageList'=>$imageList];
+    }
+
+    /**
+     * @param Request $request
      * @return array
-     * 上传图片
+     * 上传图片--》添加页面
      */
     public function imageUpload(Request $request){
         $image = $request->file("productImage");
@@ -138,4 +177,46 @@ class StockController extends Controller
             ];
         }
     }
+
+
+    /**
+     * @param Request $request
+     * @return array
+     * 上传图片-->修改页面
+     */
+    public function imageUploadAlter(Request $request){
+        $image = $request->file("productImage");
+        $fileDir=base_path()."/public/productImage/";//保存路径
+        $originalName=$image->getClientOriginalName();//获取文件原名
+        $extension = $image -> getClientOriginalExtension();//获取文件后缀
+        $newImagesName=md5(time()).random_int(5,5).".".$extension;//生成新的文件名
+
+        $product = Product::find($request->productId);
+        $p_image = new ProductImage();
+        $p_image->productId = $product->id;
+        $p_image->fileOriginalName = $originalName;
+        $p_image->fileRealName = $newImagesName;
+        $productImages = array();
+        array_push($productImages,$p_image);
+        $product->images()->saveMany($productImages);
+        if($image->move($fileDir,$newImagesName)){
+            //保存产品图片
+                return ['status' => 'success',
+                    'info' => '添加成功！',
+                    'productIndex'=>$request->productIndex,
+                    'imageId' => $p_image->id
+                ];
+        }
+    }
+
+    /**
+     * @param Request $request
+     * 修改时删除上传的图片
+     */
+    public function delProductImage(Request $request){
+        $fileRealName = ProductImage::find($request->imageId)->fileRealName;
+        unlink ( base_path()."/public/productImage/". $fileRealName);
+        ProductImage::destroy($request->imageId);
+    }
+
 }

@@ -103,7 +103,7 @@
                             <template scope="scope">
                                 <el-button
                                         size="small"
-                                v-on:click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                v-on:click="location.href='{{url("admin/stock/alterProduct/")}}/'+scope.row.id">编辑</el-button>
                                 <el-button
                                         size="small"
                                         type="danger"
