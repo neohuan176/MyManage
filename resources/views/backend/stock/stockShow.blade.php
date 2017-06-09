@@ -128,99 +128,96 @@
         </div>
     </div>
 @endsection
-<script type="text/ecmascript">
-    window.onload = function () {
-        var app = new Vue({
-            el: "#app",
-            data: {
-                products: "",
-                criteria: "",//搜索条件
-                type: "",//下拉选项
-                //默认每页数据量
-                pagesize: 10,
-
-                //当前页码
-                currentPage: 1,
-
-                //查询的页码
-                start: 1,
-
-                //默认数据总数
-                totalCount: {{$total}}
-            },
-            methods: {
-                fetchProducts: function () {
-                    _this = this;
-                    console.log(_this.type);
-                    axios.post("{{url('admin/stock/getAllProducts')}}",{
-                        type:_this.type,
-                        criteria: _this.criteria,
-                        currentPage: _this.currentPage,
-                        pagesize: _this.pagesize
-                    })
-                        .then(function (response) {
-                            if(response.status == "200"){
-                                _this.products = response.data.products;
-                                console.log(app.products);
-                            }
-                        }).catch(function (error) {
-                        console.log(error);
-                    })
-                },
-                //每页显示数据量变更
-                handleSizeChange: function(val) {
-                    this.pagesize = val;
-                    this.fetchProducts(this.criteria, this.currentPage, this.pagesize);
-                },
-
-                //页码变更
-                handleCurrentChange: function(val) {
-                    this.currentPage = val;
-                    this.fetchProducts(this.criteria, this.currentPage, this.pagesize);
-                },
-                search: function(){
-                    this.fetchProducts();
-                },
-                handleDelete: function (index,row) {
-                    var _this = this;
-                    axios.post("{{url('admin/stock/delProduct')}}",{
-                        productId: row.id
-                    })
-                        .then(function (response) {
-                            if(response.status == "200"){
-                                _this.products.splice(index,1);
-                            }
-                        }).catch(function (error) {
-                        console.log(error);
-                    })
-                },
-                changeCount: function (index,row) {
-                    console.log(row);
-                    axios.post("{{url('admin/stock/changeCount')}}",{
-                        productId: row.id,
-                        count: row.count
-                    })
-                        .then(function (response) {
-                            if(response.status == "200"){
-                                console.log("修改库存成功！");
-                            }
-                        }).catch(function (error) {
-                        console.log(error);
-                    })
-                }
-            },
-            mounted: function () {
-                this.fetchProducts();
-            },
-            created: function () {
-
-            }
-        })
-    }
-</script>
-
-
-
 @section('js-end')
+    <script type="text/ecmascript">
+        $( function () {
+                var app = new Vue({
+                    el: "#app",
+                    data: {
+                        products: "",
+                        criteria: "",//搜索条件
+                        type: "",//下拉选项
+                        //默认每页数据量
+                        pagesize: 10,
 
+                        //当前页码
+                        currentPage: 1,
+
+                        //查询的页码
+                        start: 1,
+
+                        //默认数据总数
+                        totalCount: {{$total}}
+                    },
+                    methods: {
+                        fetchProducts: function () {
+                            _this = this;
+                            console.log(_this.type);
+                            axios.post("{{url('admin/stock/getAllProducts')}}", {
+                                type: _this.type,
+                                criteria: _this.criteria,
+                                currentPage: _this.currentPage,
+                                pagesize: _this.pagesize
+                            })
+                                .then(function (response) {
+                                    if (response.status == "200") {
+                                        _this.products = response.data.products;
+                                        console.log(app.products);
+                                    }
+                                }).catch(function (error) {
+                                console.log(error);
+                            })
+                        },
+                        //每页显示数据量变更
+                        handleSizeChange: function (val) {
+                            this.pagesize = val;
+                            this.fetchProducts(this.criteria, this.currentPage, this.pagesize);
+                        },
+
+                        //页码变更
+                        handleCurrentChange: function (val) {
+                            this.currentPage = val;
+                            this.fetchProducts(this.criteria, this.currentPage, this.pagesize);
+                        },
+                        search: function () {
+                            this.fetchProducts();
+                        },
+                        handleDelete: function (index, row) {
+                            var _this = this;
+                            axios.post("{{url('admin/stock/delProduct')}}", {
+                                productId: row.id
+                            })
+                                .then(function (response) {
+                                    if (response.status == "200") {
+                                        _this.products.splice(index, 1);
+                                    }
+                                }).catch(function (error) {
+                                console.log(error);
+                            })
+                        },
+                        changeCount: function (index, row) {
+                            console.log(row);
+                            axios.post("{{url('admin/stock/changeCount')}}", {
+                                productId: row.id,
+                                count: row.count
+                            })
+                                .then(function (response) {
+                                    if (response.status == "200") {
+                                        console.log("修改库存成功！");
+                                    }
+                                }).catch(function (error) {
+                                console.log(error);
+                            })
+                        }
+                    },
+                    mounted: function () {
+                        this.fetchProducts();
+                    },
+                    created: function () {
+
+                    }
+                });
+            }
+        )
+    </script>
 @endsection

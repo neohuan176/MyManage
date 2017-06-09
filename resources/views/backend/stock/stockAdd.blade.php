@@ -103,78 +103,76 @@
     </div>
 @endsection
 
-<script type="text/ecmascript">
-    window.onload = function () {
-        var app = new Vue({
-            el: "#app",
-            data: {
-                products: [{
-                    No: "GY-",
-                    productName: "",
-                    unit: "",
-                    size: "",
-                    unitPrice: "",
-                    count: 1,
-                    describe: "",
-                    position: "",
-                    imageList: []
-                }],
-                dialogImageUrl: '',
-                dialogVisible: false
-            },
-            methods: {
-                handleRemove: function(file, fileList) {
-                    console.log( file.response );
-                    //删除服务器端的数据（添加完成商品的时候都要清空的）
-                    //删除当前对象的imageList中对应的id
-                },//删除图片
-                handlePictureCardPreview: function(file) {
-                    this.dialogImageUrl = file.url;
-                    this.dialogVisible = true;
-                    console.log(file);
-                },//预览图片
-                handleUploadSuccess: function (response, file, fileList) {
-                    console.log(response.productIndex);
-                    this.products[response.productIndex].imageList.push(response.imageId);//在imageList添加imageId
-                },//上传成功
-                addProduct: function () {//添加新的
-                    this.products.push({
-                        No: "",
-                        productName: "",
-                        unit: "",
-                        size: "",
-                        unitPrice: "",
-                        count: 1,
-                        describe: "",
-                        position: "",
-                        imageList: []
-                    })
-                },
-                commitProduct: function () {
-                    axios.post("{{url('admin/stock/addProducts')}}",
-                        {products:this.products}
-                        )
-                        .then(function (response) {
-                            if(response.status == "200"){
-                                location.href = "{{url('admin/stock/stockShow')}}"
-                            }
-                        }).catch(function (error) {
-                        console.log(error)
-                    })
-                }
-            },
-            mounted: function () {
-
-            },
-            created: function () {
-
-            }
-        })
-    }
-</script>
-
-
 
 @section('js-end')
+    <script type="text/ecmascript">
+        $(function () {
+                var app = new Vue({
+                    el: "#app",
+                    data: {
+                        products: [{
+                            No: "GY-",
+                            productName: "",
+                            unit: "",
+                            size: "",
+                            unitPrice: "",
+                            count: 1,
+                            describe: "",
+                            position: "",
+                            imageList: []
+                        }],
+                        dialogImageUrl: '',
+                        dialogVisible: false
+                    },
+                    methods: {
+                        handleRemove: function(file, fileList) {
+                            console.log( file.response );
+                            //删除服务器端的数据（添加完成商品的时候都要清空的）
+                            //删除当前对象的imageList中对应的id
+                        },//删除图片
+                        handlePictureCardPreview: function(file) {
+                            this.dialogImageUrl = file.url;
+                            this.dialogVisible = true;
+                            console.log(file);
+                        },//预览图片
+                        handleUploadSuccess: function (response, file, fileList) {
+                            console.log(response.productIndex);
+                            this.products[response.productIndex].imageList.push(response.imageId);//在imageList添加imageId
+                        },//上传成功
+                        addProduct: function () {//添加新的
+                            this.products.push({
+                                No: "",
+                                productName: "",
+                                unit: "",
+                                size: "",
+                                unitPrice: "",
+                                count: 1,
+                                describe: "",
+                                position: "",
+                                imageList: []
+                            })
+                        },
+                        commitProduct: function () {
+                            axios.post("{{url('admin/stock/addProducts')}}",
+                                {products:this.products}
+                            )
+                                .then(function (response) {
+                                    if(response.status == "200"){
+                                        location.href = "{{url('admin/stock/stockShow')}}"
+                                    }
+                                }).catch(function (error) {
+                                console.log(error)
+                            })
+                        }
+                    },
+                    mounted: function () {
 
+                    },
+                    created: function () {
+
+                    }
+                })
+            }
+        )
+    </script>
 @endsection

@@ -69,43 +69,44 @@
         </div>
     </div>
 @endsection
-<script type="text/ecmascript">
-  window.onload = function () {
-      var app = new Vue({
-          el: '#app',
-          data: {
-              message: 'Hello Vue!',
-              client: ""
-          },
-          methods: {
-              fetchData: function () {
-                  axios.get("{{url("admin/personal/getClientInfo/".$client->id)}}")
-                      .then(function (response) {
-                          app.client = response.data.client;
-                      }).catch(function (error) {
-                      console.log(error)
-                  })
-              },
-              reDirectToMap: function () {
-                  if(app.client.position != ""){
-                      var hrefStr = "http://m.amap.com/navi/?start=&dest="+app.client.lng+","+app.client.lat+"&destName="+app.client.position+"&naviBy=car&key=243f524bd3274d3a0e201a5625c41593";
-                        window.open(hrefStr);
-                  }else{
-                      alert("没有目的地");
-                  }
-              },
-              showOrders: function () {
-                  location.href = "{{url('admin/personal/showOrderByPersonalClient/')}}/"+app.client.id;
-              }
-          },
-          mounted: function () {
-              this.fetchData();
-          }
-      })
-  }
-
-</script>
 
 @section('js-end')
+    <script type="text/ecmascript">
+        $(function () {
+                var app = new Vue({
+                    el: '#app',
+                    data: {
+                        message: 'Hello Vue!',
+                        client: ""
+                    },
+                    methods: {
+                        fetchData: function () {
+                            axios.get("{{url("admin/personal/getClientInfo/".$client->id)}}")
+                                .then(function (response) {
+                                    app.client = response.data.client;
+                                }).catch(function (error) {
+                                console.log(error)
+                            })
+                        },
+                        reDirectToMap: function () {
+                            if(app.client.position != ""){
+                                var hrefStr = "http://m.amap.com/navi/?start=&dest="+app.client.lng+","+app.client.lat+"&destName="+app.client.position+"&naviBy=car&key=243f524bd3274d3a0e201a5625c41593";
+                                window.open(hrefStr);
+                            }else{
+                                alert("没有目的地");
+                            }
+                        },
+                        showOrders: function () {
+                            location.href = "{{url('admin/personal/showOrderByPersonalClient/')}}/"+app.client.id;
+                        }
+                    },
+                    mounted: function () {
+                        this.fetchData();
+                    }
+                })
+            }
+        )
+
+    </script>
 
 @endsection

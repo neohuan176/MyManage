@@ -112,88 +112,86 @@
 </div>
 @endsection
 
-<script type="text/ecmascript">
-    window.onload = function () {
-        var app = new Vue({
-            el: "#app",
-            data: {
-                product: "",
-                dialogImageUrl: '',
-                dialogVisible: false,
-                imageList: ""
-            },
-            methods: {
-                handleRemove: function(file, fileList) {//删除图片回调函数
-                    console.log( file.response );
-                    axios.post("{{url('admin/stock/alter/delProductImage')}}",
-                        {imageId:file.response.imageId}
-                    )
-                        .then(function (response) {
-                            if(response.status == "200"){
-                            }
-                        }).catch(function (error) {
-                        console.log(error)
-                    })
-                },
-                handlePictureCardPreview: function(file) {//预览
-                    this.dialogImageUrl = file.url;
-                    this.dialogVisible = true;
-                    console.log(file);
-                },//预览图片
-                handleUploadSuccess: function (response, file, fileList) {//图片上传成功回调函数
-
-                },//上传成功
-                saveProduct: function () {//提交修改
-                    axios.post("{{url('admin/stock/alterProduct')}}",
-                        {product:this.product}
-                    ).then(function (response) {
-                            if(response.data.status == "success"){
-                                location.href = "{{url('admin/stock/stockShow')}}"
-                            }
-                        }).catch(function (error) {
-                        console.log(error)
-                    })
-                },
-                fetchProducts: function () {//获取初始化数据
-                    _this = this;
-                    console.log(this.dialogVisible);
-                    axios.get("{{url('admin/stock/getProduct/'.$productId)}}")
-                        .then(function (response) {
-                            if(response.status == "200"){
-                                _this.product = response.data.product;
-                                _this.imageList = response.data.imageList;
-                                console.log(_this.imageList);
-                            }
-                        }).catch(function (error) {
-                        console.log(error);
-                    })
-                },
-                delImageById: function(imageId,index) {//删除图片回调函数
-                    _this = this;
-                    console.log( index );
-                    axios.post("{{url('admin/stock/alter/delProductImage')}}",
-                        {imageId:imageId}
-                    ).then(function (response) {
-                            if(response.status == "200"){
-                                _this.imageList.splice(index,1);
-                            }
-                        }).catch(function (error) {
-                        console.log(error)
-                    })
-                },
-            },
-            mounted: function () {
-                this.fetchProducts();
-            },
-            created: function () {
-
-            }
-        })
-    }
-</script>
-
-
-
 @section('js-end')
+    <script type="text/ecmascript">
+        $(function () {
+                var app = new Vue({
+                    el: "#app",
+                    data: {
+                        product: "",
+                        dialogImageUrl: '',
+                        dialogVisible: false,
+                        imageList: ""
+                    },
+                    methods: {
+                        handleRemove: function(file, fileList) {//删除图片回调函数
+                            console.log( file.response );
+                            axios.post("{{url('admin/stock/alter/delProductImage')}}",
+                                {imageId:file.response.imageId}
+                            )
+                                .then(function (response) {
+                                    if(response.status == "200"){
+                                    }
+                                }).catch(function (error) {
+                                console.log(error)
+                            })
+                        },
+                        handlePictureCardPreview: function(file) {//预览
+                            this.dialogImageUrl = file.url;
+                            this.dialogVisible = true;
+                            console.log(file);
+                        },//预览图片
+                        handleUploadSuccess: function (response, file, fileList) {//图片上传成功回调函数
+
+                        },//上传成功
+                        saveProduct: function () {//提交修改
+                            axios.post("{{url('admin/stock/alterProduct')}}",
+                                {product:this.product}
+                            ).then(function (response) {
+                                if(response.data.status == "success"){
+                                    location.href = "{{url('admin/stock/stockShow')}}"
+                                }
+                            }).catch(function (error) {
+                                console.log(error)
+                            })
+                        },
+                        fetchProducts: function () {//获取初始化数据
+                            _this = this;
+                            console.log(this.dialogVisible);
+                            axios.get("{{url('admin/stock/getProduct/'.$productId)}}")
+                                .then(function (response) {
+                                    if(response.status == "200"){
+                                        _this.product = response.data.product;
+                                        _this.imageList = response.data.imageList;
+                                        console.log(_this.imageList);
+                                    }
+                                }).catch(function (error) {
+                                console.log(error);
+                            })
+                        },
+                        delImageById: function(imageId,index) {//删除图片回调函数
+                            _this = this;
+                            console.log( index );
+                            axios.post("{{url('admin/stock/alter/delProductImage')}}",
+                                {imageId:imageId}
+                            ).then(function (response) {
+                                if(response.status == "200"){
+                                    _this.imageList.splice(index,1);
+                                }
+                            }).catch(function (error) {
+                                console.log(error)
+                            })
+                        },
+                    },
+                    mounted: function () {
+                        this.fetchProducts();
+                    },
+                    created: function () {
+
+                    }
+                })
+            }
+        )
+    </script>
 
 @endsection

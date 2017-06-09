@@ -70,43 +70,44 @@
         </div>
     </div>
 @endsection
-<script type="text/ecmascript">
-  window.onload = function () {
-      var app = new Vue({
-          el: '#app',
-          data: {
-              message: 'Hello Vue!',
-              company: ""
-          },
-          methods: {
-              fetchData: function () {
-                  axios.get("{{url("admin/getDataTest/".$company->id)}}")
-                      .then(function (response) {
-                          app.company = response.data.company;
-                      }).catch(function (error) {
-                      console.log(error)
-                  })
-              },
-              reDirectToMap: function () {
-                  if(app.company.position != ""){
-                      var hrefStr = "http://m.amap.com/navi/?start=&dest="+app.company.lng+","+app.company.lat+"&destName="+app.company.position+"&naviBy=car&key=243f524bd3274d3a0e201a5625c41593";
-                        window.open(hrefStr);
-                  }else{
-                      alert("没有目的地");
-                  }
-              },
-              showOrders: function () {
-                  location.href = "{{url('admin/showOrderByCompany/')}}/"+app.company.id;
-              }
-          },
-          mounted: function () {
-              this.fetchData();
-          }
-      })
-  }
 
-</script>
 
 @section('js-end')
+    <script type="text/ecmascript">
+        $(function () {
+                var app = new Vue({
+                    el: '#app',
+                    data: {
+                        message: 'Hello Vue!',
+                        company: ""
+                    },
+                    methods: {
+                        fetchData: function () {
+                            axios.get("{{url("admin/getDataTest/".$company->id)}}")
+                                .then(function (response) {
+                                    app.company = response.data.company;
+                                }).catch(function (error) {
+                                console.log(error)
+                            })
+                        },
+                        reDirectToMap: function () {
+                            if(app.company.position != ""){
+                                var hrefStr = "http://m.amap.com/navi/?start=&dest="+app.company.lng+","+app.company.lat+"&destName="+app.company.position+"&naviBy=car&key=243f524bd3274d3a0e201a5625c41593";
+                                window.open(hrefStr);
+                            }else{
+                                alert("没有目的地");
+                            }
+                        },
+                        showOrders: function () {
+                            location.href = "{{url('admin/showOrderByCompany/')}}/"+app.company.id;
+                        }
+                    },
+                    mounted: function () {
+                        this.fetchData();
+                    }
+                })
+            }
+        )
 
+    </script>
 @endsection
