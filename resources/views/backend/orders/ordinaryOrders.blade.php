@@ -62,7 +62,7 @@
                                     <td class="hover" onclick="changeStatus('{{$order->id}}',this)" data-value="{{$order->isDone}}">@if($order->isDone)<span class="label label-success">已完成</span>@else<span class="label label-danger">未完成</span>'@endif</td>
                                     <td>
                                         <button class="btn btn-danger btn-sm" onclick="delOrderById(this,'{{$order->id}}')" >删除</button>
-                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#alterRecord" onclick="alterRecord({{$order}})">修改</button>
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#alterRecord" onclick="alterRecord({{$order}})">修改/查看</button>
                                     </td>
                                 </tr>
                             @endforeach

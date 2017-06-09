@@ -83,7 +83,7 @@
                                 label="单价"
                                 >
                             <template scope="scope">
-                                @{{scope.row.unitPrice}} <span v-if="scope.row.unit">/(@{{ scope.row.unit }})</span>
+                                @{{scope.row.unitPrice}} ￥<span v-if="scope.row.unit">/(@{{ scope.row.unit }})</span>
                             </template>
                         </el-table-column>
                         <el-table-column
