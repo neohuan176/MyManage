@@ -53,7 +53,7 @@
                             <li><a href="{{route('admin.orders.companyOrdersManage')}}" class="{{request()->getPathInfo() == '/admin/orders/companyOrdersManage'?'active':''}}">公司订单</a></li>
                             <li><a href="{{route('admin.orders.clientOrdersManage')}}" class="{{request()->getPathInfo() == '/admin/orders/clientOrdersManage'?'active':''}}">个人订单</a></li>
                             <li><a href="{{route('admin.orders.ordinaryOrdersManage')}}" class="{{request()->getPathInfo() == '/admin/orders/ordinaryOrdersManage'?'active':''}}">常规订单</a></li>
-                            <li><a href="{{route('admin')}}" class="{{request()->getPathInfo() == '/admin/orders/'?'active':''}}"><i class="fa fa-database"></i> <span>库存管理</span></a></li>
+                            <li><a href="{{route('admin.stock.stockShow')}}" class=""><i class="fa fa-database"></i> <span>库存管理</span></a></li>
                         </ul>
                     </li>
 
